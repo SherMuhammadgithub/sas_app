@@ -71,5 +71,9 @@ export default function Home() {
     },
   ];
 
-  return <MorphingPortfolioContainer sections={sections} />;
+  return (
+    <section className="h-screen">
+      <MorphingPortfolioContainer sections={sections} />
+    </section>
+  );
 }

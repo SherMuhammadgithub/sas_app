@@ -2,217 +2,248 @@
 
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import {
+  Package,
+  BarChart3,
+  AlertTriangle,
+  MapPin,
+  CheckCircle,
+  TrendingUp,
+  Activity,
+  Clock,
+  Shield,
+} from "lucide-react";
 import Image from "next/image";
 
 /**
  * Stock Management Section Component
- * Features warehouse image with text content and animations
+ * Features inventory tracking and warehouse management capabilities
  */
 export const StockManagementSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.4);
+  const { ref, isInView } = useScrollAnimation(0.3);
+
+  // Decorative icons - hidden on small screens
+  const decorativeIcons = [
+    {
+      Icon: Package,
+      position: "top-4 left-4 md:top-8 md:left-8",
+      delay: 0.1,
+    },
+    {
+      Icon: BarChart3,
+      position: "top-4 right-4 md:top-8 md:right-8",
+      delay: 0.2,
+    },
+    {
+      Icon: AlertTriangle,
+      position: "bottom-4 left-4 md:bottom-8 md:left-8",
+      delay: 0.3,
+    },
+    {
+      Icon: TrendingUp,
+      position: "bottom-4 right-4 md:bottom-8 md:right-8",
+      delay: 0.4,
+    },
+  ];
+
+  // Stock management features
+  const stockFeatures = [
+    {
+      title: "Real-time Inventory Tracking",
+      description:
+        "Monitor stock levels across all locations with instant updates and alerts",
+      icon: Activity,
+    },
+    {
+      title: "Multi-location Management",
+      description:
+        "Track inventory across multiple branches and warehouses seamlessly",
+      icon: MapPin,
+    },
+    {
+      title: "Automated Alerts",
+      description:
+        "Get notified about low stock, disposals, returns, and faulty items",
+      icon: AlertTriangle,
+    },
+  ];
 
   return (
     <section
       id="stock-management"
       ref={ref}
-      className="w-full h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+      className="w-full h-full flex items-center justify-center relative px-2 sm:px-4"
     >
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Left Content */}
+      {/* Background Icons - Hidden on mobile */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
+        {decorativeIcons.map(({ Icon, position, delay }, index) => (
           <motion.div
-            initial={{ opacity: 0, x: -60 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -60 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="space-y-6 lg:space-y-8"
+            key={index}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 0.2, scale: 1 }}
+            transition={{ duration: 0.8, delay }}
+            className={`absolute ${position} text-green-400`}
           >
-            {/* Section Badge */}
+            <Icon className="w-6 h-6 md:w-8 md:h-8" />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Main Content Container */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 items-center min-h-[85vh] sm:min-h-[80vh]">
+          {/* Content Side - Left */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1"
+          >
+            {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-600/30 rounded-full px-4 py-2 backdrop-blur-sm transition-all duration-500"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-green-500/20 text-green-300 text-xs sm:text-sm font-medium border border-green-500/30"
             >
-              <span className="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full mr-2 animate-pulse"></span>
-              <span className="text-green-700 dark:text-green-300 text-sm font-medium uppercase tracking-wide transition-all duration-500">
-                Inventory Control
-              </span>
+              <Package className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              Inventory Control
             </motion.div>
 
             {/* Main Heading */}
             <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight transition-colors duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight"
             >
-              Stock{" "}
-              <span className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                Management
-              </span>
+              Smart{" "}
+              <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                Stock
+              </span>{" "}
+              Management
             </motion.h2>
 
-            {/* Description */}
+            {/* Description - Hidden on very small screens */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed"
+              className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed hidden sm:block"
             >
-              Stay on top of inventory levels, and track stock across all your
+              Stay on top of inventory levels and track stock across all your
               branches and warehouses with real-time visibility. Handle
-              Disposals, Faulty & returns with ease.
+              disposals, faulty items & returns with ease.
             </motion.p>
 
-            {/* Feature List */}
+            {/* Features List */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="space-y-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="space-y-2 sm:space-y-3 lg:space-y-4"
             >
-              {[
-                "Real-time inventory tracking",
-                "Multi-location management",
-                "Automated disposal handling",
-                "Returns & faulty item processing",
-                "Low stock alerts & notifications",
-              ].map((feature, index) => (
+              {stockFeatures.map((feature, index) => (
                 <motion.div
-                  key={feature}
+                  key={index}
                   initial={{ opacity: 0, x: -20 }}
-                  animate={
-                    isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
-                  }
-                  transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                  className="flex items-center space-x-3"
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
+                  className="flex items-start space-x-2 sm:space-x-3"
                 >
-                  <div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-3 h-3 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-green-500/20 rounded-lg border border-green-500/30">
+                    <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                   </div>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">
-                    {feature}
-                  </span>
+                  <div>
+                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base">
+                      {feature.title}
+                    </h3>
+                    {/* Description hidden on small screens */}
+                    <p className="text-gray-300 text-xs lg:text-sm hidden sm:block">
+                      {feature.description}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* CTA Button */}
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 1.3 }}
-              className="pt-4"
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4"
             >
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 25px rgba(46, 213, 115, 0.3)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center space-x-2"
-              >
-                <span>Learn More</span>
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </motion.button>
+              <button className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-green-500/25">
+                Start Tracking
+              </button>
+              {/* Second button hidden on very small screens */}
+              <button className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block">
+                View Demo
+              </button>
             </motion.div>
           </motion.div>
 
-          {/* Right Image */}
+          {/* Image Side - Right */}
           <motion.div
-            initial={{ opacity: 0, x: 60, scale: 0.9 }}
-            animate={
-              isInView
-                ? { opacity: 1, x: 0, scale: 1 }
-                : { opacity: 0, x: 60, scale: 0.9 }
-            }
-            transition={{ duration: 1.2, delay: 0.4 }}
-            className="relative"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative order-1 lg:order-2"
           >
-            {/* Main Image Container */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              {/* Warehouse Image */}
+            <div className="relative">
+              {/* Main Image - Smaller on mobile */}
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6 }}
-                className="relative h-64 sm:h-80 lg:h-96 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-700"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl border border-gray-700/50"
               >
                 <Image
                   src="/images/stock.png"
-                  alt="Modern warehouse with organized inventory management"
-                  fill
-                  className="object-cover"
+                  alt="Stock Management Dashboard - Inventory tracking and warehouse management interface"
+                  width={600}
+                  height={360}
+                  className="w-full h-auto object-cover max-h-[200px] sm:max-h-[250px] md:max-h-[300px] lg:max-h-[350px] xl:max-h-[400px]"
                   priority
-                  sizes="(min-width: 1024px) 32rem, 100vw"
                 />
+              </motion.div>
 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-
-                {/* Floating Stats Card */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={
-                    isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                  }
-                  transition={{ duration: 0.8, delay: 1.5 }}
-                  className="absolute bottom-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-lg p-4 shadow-lg"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                        Live Tracking
-                      </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        2,847 items monitored
-                      </p>
-                    </div>
+              {/* Floating Stats Cards - Hidden on mobile, smaller on tablet */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden sm:block"
+              >
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <Activity className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                  <div>
+                    <p className="text-xs text-gray-400">Live Updates</p>
+                    <p className="text-xs sm:text-sm font-bold text-white">
+                      Real-time
+                    </p>
                   </div>
-                </motion.div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden md:block"
+              >
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                  <div>
+                    <p className="text-xs text-gray-400">Accuracy</p>
+                    <p className="text-xs sm:text-sm font-bold text-white">
+                      99.5%
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             </div>
-
-            {/* Decorative Elements */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={
-                isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
-              }
-              transition={{ duration: 0.8, delay: 1.2 }}
-              className="absolute -top-4 -right-4 w-20 h-20 bg-green-500/20 rounded-full blur-xl"
-            ></motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={
-                isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
-              }
-              transition={{ duration: 0.8, delay: 1.4 }}
-              className="absolute -bottom-6 -left-6 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"
-            ></motion.div>
           </motion.div>
         </div>
       </div>

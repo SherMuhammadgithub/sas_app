@@ -141,7 +141,7 @@ export const MorphingPortfolioContainer = ({
       </div>
 
       {/* Morphing Content Layer */}
-      <div className="relative z-10 w-full h-full">
+      <div className="relative z-10 w-full h-screen">
         <AnimatePresence mode="wait" custom={scrollDirection.current}>
           <motion.div
             key={currentSectionIndex}
@@ -158,18 +158,17 @@ export const MorphingPortfolioContainer = ({
               rotateX: { duration: 0.8 },
               y: { duration: 0.8 },
             }}
-            className="absolute inset-0 w-full h-full flex items-center justify-center"
+            className="absolute inset-0 w-full h-full"
             style={{ transformStyle: "preserve-3d" }}
           >
-            <div className="w-full h-full">
-              {sections[currentSectionIndex]?.component}
-            </div>
+            {/* Remove the wrapper div that was constraining the height */}
+            {sections[currentSectionIndex]?.component}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Section Indicators */}
-      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-3">
+      {/* Section Indicators - Responsive positioning */}
+      <div className="fixed right-2 sm:right-4 md:right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-2 sm:space-y-3">
         {sections.map((_, index) => (
           <button
             key={index}
@@ -182,7 +181,7 @@ export const MorphingPortfolioContainer = ({
                 setTimeout(() => setIsTransitioning(false), 800);
               }
             }}
-            className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 hover:scale-125 ${
               index === currentSectionIndex
                 ? "bg-green-400 shadow-lg shadow-green-400/50"
                 : "bg-white/30 hover:bg-white/50"
@@ -192,23 +191,23 @@ export const MorphingPortfolioContainer = ({
         ))}
       </div>
 
-      {/* Section Title Indicator */}
-      <div className="fixed bottom-8 left-8 z-50">
+      {/* Section Title Indicator - Moved to top and visible on all screens */}
+      <div className="fixed top-1 sm:top-6 md:top-8 left-2 sm:left-4 md:left-8 z-50 md:ml-20">
         <motion.div
           key={currentSectionIndex}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-white/80 text-sm font-medium"
+          className="text-white/90 text-sm sm:text-base md:text-lg font-medium"
         >
           {sections[currentSectionIndex]?.title}
         </motion.div>
-        <div className="flex items-center mt-2 space-x-2">
-          <div className="text-white/60 text-xs">
+        <div className="flex items-center mt-2 sm:mt-3 space-x-2 sm:space-x-3">
+          <div className="text-white/70 text-xs sm:text-sm">
             {currentSectionIndex + 1} / {sections.length}
           </div>
-          <div className="flex-1 h-0.5 bg-white/20 rounded-full overflow-hidden">
+          <div className="h-0.5 sm:h-1 bg-white/20 rounded-full overflow-hidden w-16 sm:w-20 md:w-24">
             <motion.div
               className="h-full bg-green-400"
               initial={{ width: 0 }}
@@ -223,10 +222,15 @@ export const MorphingPortfolioContainer = ({
         </div>
       </div>
 
-      {/* Navigation Instructions */}
-      <div className="fixed bottom-8 right-8 z-50 text-white/60 text-xs text-right">
-        <div>↑↓ Arrow keys or scroll to navigate</div>
-        <div>Click dots to jump to section</div>
+      {/* Navigation Instructions - Moved higher and better positioned */}
+      <div className="fixed top-2 sm:top-6 md:top-8 right-2 sm:right-4 md:right-8 z-50 text-white/60 text-xs sm:text-sm text-right md:mr-10">
+        <div className="hidden sm:block">Click dots to jump to section</div>
+        <div className="sm:hidden">Tap dots to jump</div>
+      </div>
+
+      {/* Mobile-only swipe hint */}
+      <div className="fixed bottom-4 right-2 z-50 text-white/60 text-xs text-right sm:hidden">
+        <div>Tap dots to jump</div>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ export const HeroSection = () => {
     <section
       id="hero"
       ref={ref}
-      className="w-full h-screen flex items-center justify-center relative overflow-hidden"
+      className="w-full h-[100vh] flex items-center justify-center relative"
     >
       {/* Background Image */}
       <motion.div

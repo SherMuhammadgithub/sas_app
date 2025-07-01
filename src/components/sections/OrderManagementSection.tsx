@@ -8,209 +8,59 @@ import {
   Package,
   Truck,
   CheckCircle,
-  Clock,
-  BarChart3,
-  Users,
-  Target,
-  Zap,
-  Shield,
-  Star,
   TrendingUp,
+  Star,
 } from "lucide-react";
 import Image from "next/image";
 
 /**
  * Order Management Section Component
- * Features split layout with decorative spreading icons and animated content
+ * Optimized for morphing container with responsive design
  */
 export const OrderManagementSection = () => {
   const { ref, isInView } = useScrollAnimation(0.3);
-  // Floating sparkles/particles for extra charm
-  const sparkles = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: 4 + Math.random() * 4,
-    size: 2 + Math.random() * 4,
-  }));
-
   const { theme } = useTheme();
 
-  // Decorative icons for spreading animation with more charming effects
+  // Decorative icons - hide on small screens
   const decorativeIcons = [
     {
       Icon: ShoppingCart,
+      position: "top-4 left-4 md:top-8 md:left-8",
       delay: 0.1,
-      position: "top-8 left-4 md:top-16 md:left-16",
-      size: { mobile: 32, desktop: 48 },
-      opacity: 0.4,
-      animation: "bounce",
     },
     {
       Icon: Package,
+      position: "top-4 right-4 md:top-8 md:right-8",
       delay: 0.2,
-      position: "top-16 right-8 md:top-28 md:right-28",
-      size: { mobile: 28, desktop: 44 },
-      opacity: 0.35,
-      animation: "float",
     },
     {
       Icon: Truck,
+      position: "bottom-4 left-4 md:bottom-8 md:left-8",
       delay: 0.3,
-      position: "top-24 left-12 md:top-44 md:left-36",
-      size: { mobile: 34, desktop: 52 },
-      opacity: 0.3,
-      animation: "pulse",
     },
     {
       Icon: CheckCircle,
+      position: "bottom-4 right-4 md:bottom-8 md:right-8",
       delay: 0.4,
-      position: "top-32 right-6 md:top-56 md:right-16",
-      size: { mobile: 26, desktop: 40 },
-      opacity: 0.45,
-      animation: "bounce",
-    },
-    {
-      Icon: Clock,
-      delay: 0.5,
-      position: "bottom-32 left-6 md:bottom-56 md:left-20",
-      size: { mobile: 30, desktop: 46 },
-      opacity: 0.38,
-      animation: "float",
-    },
-    {
-      Icon: BarChart3,
-      delay: 0.6,
-      position: "bottom-24 right-12 md:bottom-44 md:right-36",
-      size: { mobile: 32, desktop: 50 },
-      opacity: 0.32,
-      animation: "pulse",
-    },
-    {
-      Icon: Users,
-      delay: 0.7,
-      position: "bottom-16 left-16 md:bottom-28 md:left-44",
-      size: { mobile: 28, desktop: 42 },
-      opacity: 0.42,
-      animation: "bounce",
-    },
-    {
-      Icon: Target,
-      delay: 0.8,
-      position: "bottom-8 right-4 md:bottom-16 md:right-20",
-      size: { mobile: 30, desktop: 48 },
-      opacity: 0.36,
-      animation: "float",
-    },
-    {
-      Icon: Zap,
-      delay: 0.9,
-      position: "top-40 left-20 md:top-36 md:left-56",
-      size: { mobile: 36, desktop: 54 },
-      opacity: 0.28,
-      animation: "pulse",
-    },
-    {
-      Icon: Shield,
-      delay: 1.0,
-      position: "top-48 right-16 md:top-48 md:right-48",
-      size: { mobile: 29, desktop: 43 },
-      opacity: 0.44,
-      animation: "bounce",
-    },
-    {
-      Icon: Star,
-      delay: 1.1,
-      position: "bottom-40 left-8 md:bottom-40 md:left-28",
-      size: { mobile: 31, desktop: 45 },
-      opacity: 0.4,
-      animation: "float",
-    },
-    {
-      Icon: TrendingUp,
-      delay: 1.2,
-      position: "bottom-48 right-20 md:bottom-32 md:right-32",
-      size: { mobile: 33, desktop: 49 },
-      opacity: 0.34,
-      animation: "pulse",
-    },
-    // Additional charming icons - hidden on mobile for cleaner look
-    {
-      Icon: Package,
-      delay: 1.3,
-      position: "hidden md:block md:top-72 md:left-72",
-      size: { mobile: 0, desktop: 36 },
-      opacity: 0.25,
-      animation: "bounce",
-    },
-    {
-      Icon: ShoppingCart,
-      delay: 1.4,
-      position: "hidden md:block md:top-12 md:right-60",
-      size: { mobile: 0, desktop: 38 },
-      opacity: 0.3,
-      animation: "float",
-    },
-    {
-      Icon: CheckCircle,
-      delay: 1.5,
-      position: "hidden md:block md:bottom-12 md:left-60",
-      size: { mobile: 0, desktop: 41 },
-      opacity: 0.35,
-      animation: "pulse",
-    },
-    {
-      Icon: Star,
-      delay: 1.6,
-      position: "hidden md:block md:top-80 md:right-12",
-      size: { mobile: 0, desktop: 37 },
-      opacity: 0.32,
-      animation: "bounce",
-    },
-    {
-      Icon: Truck,
-      delay: 1.7,
-      position: "hidden md:block md:bottom-72 md:right-72",
-      size: { mobile: 0, desktop: 39 },
-      opacity: 0.28,
-      animation: "float",
-    },
-    {
-      Icon: Zap,
-      delay: 1.8,
-      position: "hidden md:block md:top-24 md:left-80",
-      size: { mobile: 0, desktop: 34 },
-      opacity: 0.26,
-      animation: "pulse",
     },
   ];
 
-  // Key features list
+  // Features list
   const features = [
     {
       title: "Smart Order Processing",
-      description:
-        "Automated workflow management with real-time tracking and intelligent routing.",
+      description: "Automated workflow with real-time tracking",
       icon: ShoppingCart,
     },
     {
-      title: "Inventory Synchronization",
-      description:
-        "Real-time stock updates across all channels to prevent overselling.",
+      title: "Inventory Sync",
+      description: "Real-time stock updates across all channels",
       icon: Package,
     },
     {
       title: "Delivery Tracking",
-      description:
-        "End-to-end shipment visibility with automated customer notifications.",
+      description: "End-to-end shipment visibility",
       icon: Truck,
-    },
-    {
-      title: "Quality Assurance",
-      description:
-        "Built-in quality checks and approval workflows for every order.",
-      icon: CheckCircle,
     },
   ];
 
@@ -218,323 +68,177 @@ export const OrderManagementSection = () => {
     <section
       id="order-management"
       ref={ref}
-      className="min-h-screen relative overflow-hidden bg-white dark:bg-gray-900 transition-colors duration-500"
+      className="w-full h-full flex items-center justify-center relative px-2 sm:px-4"
     >
-      {/* Decorative Background Icons - Enhanced Spreading Animation */}
-      <div className="absolute inset-0 pointer-events-none">
-        {decorativeIcons.map(
-          ({ Icon, delay, position, opacity, animation }, index) => (
-            <motion.div
-              key={index}
-              initial={{
-                opacity: 0,
-                scale: 0,
-                rotate: -180,
-                x: "50vw",
-                y: "50vh",
-              }}
-              animate={
-                isInView
-                  ? {
-                      opacity: opacity,
-                      scale: 1,
-                      rotate: 0,
-                      x: 0,
-                      y: 0,
-                    }
-                  : {
-                      opacity: 0,
-                      scale: 0,
-                      rotate: -180,
-                      x: "50vw",
-                      y: "50vh",
-                    }
-              }
-              transition={{
-                duration: 1.2,
-                delay: delay,
-                ease: "easeOut",
-                type: "spring",
-                stiffness: 60,
-              }}
-              className={`absolute ${position} text-green-400 dark:text-green-300`}
-            >
-              <motion.div
-                animate={
-                  animation === "bounce"
-                    ? {
-                        y: [0, -12, 0],
-                        transition: {
-                          repeat: Infinity,
-                          duration: 2 + Math.random() * 2,
-                          ease: "easeInOut",
-                        },
-                      }
-                    : animation === "float"
-                    ? {
-                        y: [0, -8, 0],
-                        x: [0, 6, 0],
-                        rotate: [0, 5, 0],
-                        transition: {
-                          repeat: Infinity,
-                          duration: 3 + Math.random() * 2,
-                          ease: "easeInOut",
-                        },
-                      }
-                    : animation === "pulse"
-                    ? {
-                        scale: [1, 1.3, 1],
-                        opacity: [opacity, opacity * 2.2, opacity],
-                        transition: {
-                          repeat: Infinity,
-                          duration: 2.5 + Math.random() * 1.5,
-                          ease: "easeInOut",
-                        },
-                      }
-                    : {}
-                }
-              >
-                <Icon
-                  className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 ${
-                    theme === "dark" ? "drop-shadow-lg" : "drop-shadow-md"
-                  }`}
-                  style={{
-                    filter: `drop-shadow(0 0 12px rgba(34, 197, 94, 0.6))`,
-                    opacity: theme === "dark" ? 1.0 : 0.9,
-                  }}
-                />
-              </motion.div>
-            </motion.div>
-          )
-        )}
-      </div>
-
-      {/* Floating Sparkles for Extra Charm */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {sparkles.map((sparkle) => (
+      {/* Background Icons - Hidden on mobile */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
+        {decorativeIcons.map(({ Icon, position, delay }, index) => (
           <motion.div
-            key={sparkle.id}
-            className="absolute w-1 h-1 bg-green-400 rounded-full shadow-lg"
-            style={{
-              left: `${sparkle.x}%`,
-              top: `${sparkle.y}%`,
-              width: `${sparkle.size}px`,
-              height: `${sparkle.size}px`,
-              boxShadow: `0 0 ${sparkle.size * 2}px rgba(34, 197, 94, 0.6)`,
-            }}
+            key={index}
             initial={{ opacity: 0, scale: 0 }}
-            animate={{
-              opacity: [0, 0.9, 0],
-              scale: [0, 1.2, 0],
-              y: [-20, -50, -80],
-              x: [0, Math.random() * 30 - 15, Math.random() * 60 - 30],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: sparkle.duration,
-              delay: sparkle.delay,
-              repeat: Infinity,
-              ease: "easeOut",
-            }}
-          />
+            animate={{ opacity: 0.2, scale: 1 }}
+            transition={{ duration: 0.8, delay }}
+            className={`absolute ${position} text-green-400`}
+          >
+            <Icon className="w-6 h-6 md:w-8 md:h-8" />
+          </motion.div>
         ))}
       </div>
 
-      <div className="relative z-10 flex items-center min-h-screen">
-        <div className="max-w-7xl mx-auto px-6 py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Content Side - Left */}
+      {/* Main Content Container */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 items-center min-h-[85vh] sm:min-h-[80vh]">
+          {/* Content Side - Left */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1"
+          >
+            {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -60 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="space-y-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-green-500/20 text-green-300 text-xs sm:text-sm font-medium border border-green-500/30"
             >
-              {/* Badge */}
+              <Package className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              Order Management
+            </motion.div>
+
+            {/* Main Heading */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight"
+            >
+              Streamline Your{" "}
+              <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                Order Flow
+              </span>
+            </motion.h2>
+
+            {/* Description - Hidden on very small screens */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed hidden sm:block"
+            >
+              Transform your order management with intelligent automation,
+              real-time inventory tracking, and seamless delivery workflows.
+            </motion.p>
+
+            {/* Features List */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="space-y-2 sm:space-y-3 lg:space-y-4"
+            >
+              {features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
+                  className="flex items-start space-x-2 sm:space-x-3"
+                >
+                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-green-500/20 rounded-lg border border-green-500/30">
+                    <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base">
+                      {feature.title}
+                    </h3>
+                    {/* Description hidden on small screens */}
+                    <p className="text-gray-300 text-xs lg:text-sm hidden sm:block">
+                      {feature.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4"
+            >
+              <button className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-green-500/25">
+                Start Free Trial
+              </button>
+              {/* Second button hidden on very small screens */}
+              <button className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block">
+                View Demo
+              </button>
+            </motion.div>
+          </motion.div>
+
+          {/* Image Side - Right */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative order-1 lg:order-2"
+          >
+            <div className="relative">
+              {/* Main Image - Smaller on mobile */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={
-                  isInView
-                    ? { opacity: 1, scale: 1 }
-                    : { opacity: 0, scale: 0.8 }
-                }
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium border border-green-200 dark:border-green-700/50"
-              >
-                <Package className="w-4 h-4 mr-2" />
-                Order Management System
-              </motion.div>
-
-              {/* Main Heading */}
-              <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                animate={
-                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-                }
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight"
-              >
-                Streamline Your{" "}
-                <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                  Order Flow
-                </span>
-              </motion.h2>
-
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={
-                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                }
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg"
+                className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl border border-gray-700/50"
               >
-                Transform your order management with our intelligent system that
-                automates workflows, tracks inventory in real-time, and ensures
-                seamless delivery from click to customer satisfaction.
-              </motion.p>
-
-              {/* Features List */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={
-                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-                }
-                transition={{ duration: 0.8, delay: 0.7 }}
-                className="space-y-6"
-              >
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={
-                      isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }
-                    }
-                    transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                    className="flex items-start space-x-4"
-                  >
-                    <div className="flex-shrink-0 p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                      <feature.icon className="w-5 h-5 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                        {feature.title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+                <Image
+                  src="/images/order.png"
+                  alt="Order Management Dashboard"
+                  width={500}
+                  height={350}
+                  className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full mx-auto"
+                  priority
+                />
               </motion.div>
 
-              {/* CTA Buttons */}
+              {/* Floating Stats Cards - Hidden on mobile, smaller on tablet */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={
-                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-                }
-                transition={{ duration: 0.8, delay: 1.2 }}
-                className="flex flex-col sm:flex-row gap-4 pt-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden sm:block"
               >
-                <button className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                  Start Free Trial
-                </button>
-                <button className="px-8 py-4 border-2 border-green-600 text-green-600 dark:text-green-400 dark:border-green-400 font-semibold rounded-xl hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300">
-                  View Demo
-                </button>
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                  <div>
+                    <p className="text-xs text-gray-400">Orders</p>
+                    <p className="text-xs sm:text-sm font-bold text-white">
+                      1,247
+                    </p>
+                  </div>
+                </div>
               </motion.div>
-            </motion.div>
 
-            {/* Image Side - Right */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 60 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="relative"
-            >
-              <div className="relative">
-                {/* Main Image */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={
-                    isInView
-                      ? { opacity: 1, scale: 1 }
-                      : { opacity: 0, scale: 0.9 }
-                  }
-                  transition={{ duration: 1, delay: 0.6 }}
-                  className="relative rounded-2xl overflow-hidden shadow-2xl"
-                >
-                  <Image
-                    src="/images/order.png"
-                    alt="Order Management Dashboard"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto"
-                    priority
-                  />
-
-                  {/* Image Overlay for dark mode */}
-                  <div
-                    className={`absolute inset-0 transition-opacity duration-500 ${
-                      theme === "dark" ? "bg-gray-900/20" : "bg-white/5"
-                    }`}
-                  />
-                </motion.div>
-
-                {/* Floating Stats Cards */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                  animate={
-                    isInView
-                      ? { opacity: 1, y: 0, scale: 1 }
-                      : { opacity: 0, y: 20, scale: 0.8 }
-                  }
-                  transition={{ duration: 0.8, delay: 1.0 }}
-                  className="absolute -top-6 -left-6 bg-white dark:bg-gray-800 rounded-xl p-4 shadow-xl border border-gray-200 dark:border-gray-700"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                      <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Orders Today
-                      </p>
-                      <p className="text-xl font-bold text-gray-900 dark:text-white">
-                        1,247
-                      </p>
-                    </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden md:block"
+              >
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                  <div>
+                    <p className="text-xs text-gray-400">Rating</p>
+                    <p className="text-xs sm:text-sm font-bold text-white">
+                      98.7%
+                    </p>
                   </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                  animate={
-                    isInView
-                      ? { opacity: 1, y: 0, scale: 1 }
-                      : { opacity: 0, y: 20, scale: 0.8 }
-                  }
-                  transition={{ duration: 0.8, delay: 1.2 }}
-                  className="absolute -bottom-6 -right-6 bg-white dark:bg-gray-800 rounded-xl p-4 shadow-xl border border-gray-200 dark:border-gray-700"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                      <Star className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Satisfaction
-                      </p>
-                      <p className="text-xl font-bold text-gray-900 dark:text-white">
-                        98.7%
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

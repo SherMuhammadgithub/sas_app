@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Poppins, JetBrains_Mono } from "next/font/google";
+import {
+  Inter,
+  Playfair_Display,
+  Poppins,
+  JetBrains_Mono,
+} from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { Navbar } from "@/components/layout/Navbar";
@@ -50,7 +55,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfairDisplay.variable} ${poppins.variable} ${jetbrainsMono.variable} font-inter antialiased`}
       >
         <ThemeProvider>
-          <Navbar />
+          {/* <Navbar /> */}
           <main className="pt-20">{children}</main>
         </ThemeProvider>
       </body>
