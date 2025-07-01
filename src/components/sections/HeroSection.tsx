@@ -14,7 +14,7 @@ export const HeroSection = () => {
     <section
       id="hero"
       ref={ref}
-      className="min-h-[80vh] sm:min-h-[85vh] lg:min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-gray-900 to-black dark:from-gray-900 dark:to-black gpu-accelerated"
+      className="w-full h-screen flex items-center justify-center relative overflow-hidden"
     >
       {/* Background Image */}
       <motion.div

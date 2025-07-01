@@ -15,9 +15,9 @@ export const StockManagementSection = () => {
     <section
       id="stock-management"
       ref={ref}
-      className="py-16 lg:py-24 bg-gray-50 dark:bg-gray-900 transition-all duration-500 gpu-accelerated"
+      className="w-full h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Content */}
           <motion.div

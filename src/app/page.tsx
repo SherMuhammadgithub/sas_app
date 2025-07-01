@@ -10,71 +10,66 @@ import { CustomerPortalSection } from "@/components/sections/CustomerPortalSecti
 import { ReportingComplianceSection } from "@/components/sections/ReportingComplianceSection";
 import { AutomatedGatePassSection } from "@/components/sections/AutomatedGatePassSection";
 import { FooterSection } from "@/components/sections/FooterSection";
-import { SectionTransition } from "@/components/transitions/SectionTransition";
-import { SmoothScrollContainer } from "@/components/transitions/SmoothScrollContainer";
-import { FloatingNav } from "@/components/ui/FloatingNav";
+import { MorphingPortfolioContainer } from "@/components/transitions/MorphingPortfolioContainer";
+// import { FloatingNav } from "@/components/ui/FloatingNav"; // Commented out as requested
 
 /**
  * Main Homepage Component
- * Combines all sections with smooth scroll animations and morphing transitions
+ * Features morphing transitions between sections with fixed background
  */
 export default function Home() {
-  return (
-    <SmoothScrollContainer>
-      <div className="overflow-x-hidden">
-        {/* Hero Section - First impression with animated content */}
-        <SectionTransition>
-          <HeroSection />
-        </SectionTransition>
+  const sections = [
+    {
+      id: "hero",
+      component: <HeroSection />,
+      title: "Welcome to Portfolio",
+    },
+    {
+      id: "stock-management",
+      component: <StockManagementSection />,
+      title: "Stock Management",
+    },
+    {
+      id: "order-management",
+      component: <OrderManagementSection />,
+      title: "Order Management",
+    },
+    {
+      id: "credit-control",
+      component: <CreditControlSection />,
+      title: "Credit Control",
+    },
+    {
+      id: "payment-integration",
+      component: <PaymentIntegrationSection />,
+      title: "Payment Integration",
+    },
+    {
+      id: "whatsapp-integration",
+      component: <WhatsAppIntegrationSection />,
+      title: "WhatsApp Integration",
+    },
+    {
+      id: "delivery",
+      component: <DeliverySection />,
+      title: "Delivery Tracking",
+    },
+    {
+      id: "customer-portal",
+      component: <CustomerPortalSection />,
+      title: "Customer Portal",
+    },
+    {
+      id: "reporting-compliance",
+      component: <ReportingComplianceSection />,
+      title: "Reporting & Compliance",
+    },
+    {
+      id: "automated-gate-pass",
+      component: <AutomatedGatePassSection />,
+      title: "Automated Gate Pass",
+    },
+  ];
 
-        {/* Stock Management Section - Inventory control features */}
-        <SectionTransition>
-          <StockManagementSection />
-        </SectionTransition>
-
-        {/* Order Management Section - Streamlined order processing */}
-        <SectionTransition>
-          <OrderManagementSection />
-        </SectionTransition>
-
-        {/* Credit Control Section - Comprehensive credit management */}
-        <SectionTransition>
-          <CreditControlSection />
-        </SectionTransition>
-
-        {/* Payment Integration Section - Streamlined payment and communication */}
-        <SectionTransition>
-          <PaymentIntegrationSection />
-        </SectionTransition>
-
-        {/* WhatsApp Integration Section - Business messaging and customer communication */}
-        <SectionTransition>
-          <WhatsAppIntegrationSection />
-        </SectionTransition>
-
-        {/* Delivery Section - Interactive map with delivery tracking */}
-        <SectionTransition>
-          <DeliverySection />
-        </SectionTransition>
-
-        {/* Customer Portal Section - Self-service capabilities and mobile app */}
-        <SectionTransition>
-          <CustomerPortalSection />
-        </SectionTransition>
-
-        {/* Reporting and Compliance Section - Analytics dashboard and compliance tracking */}
-        <SectionTransition>
-          <ReportingComplianceSection />
-        </SectionTransition>
-
-        {/* Automated Gate-Pass Section - Digital gate-pass generation and management */}
-        <SectionTransition>
-          <AutomatedGatePassSection />
-        </SectionTransition>
-
-        {/* Floating Navigation for smooth section transitions */}
-        <FloatingNav />
-      </div>
-    </SmoothScrollContainer>
-  );
+  return <MorphingPortfolioContainer sections={sections} />;
 }
