@@ -34,8 +34,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         setTheme(systemTheme);
       }
     } catch (error) {
-      // Fallback to light mode if localStorage is not available
-      setTheme("light");
+      console.error("Failed to load theme from localStorage:", error);
     }
     setMounted(true);
   }, []);

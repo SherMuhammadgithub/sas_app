@@ -7,7 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { Navbar } from "@/components/layout/Navbar";
+// import { Navbar } from "@/components/layout/Navbar";
 
 // Primary font for body text - Inter (clean, modern, excellent readability)
 const inter = Inter({

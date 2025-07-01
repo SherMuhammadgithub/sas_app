@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Package,
   BarChart3,
@@ -10,17 +11,27 @@ import {
   CheckCircle,
   TrendingUp,
   Activity,
-  Clock,
-  Shield,
 } from "lucide-react";
 import Image from "next/image";
 
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * Stock Management Section Component
- * Features inventory tracking and warehouse management capabilities
+ * Features inventory tracking and warehouse management capabilities with GSAP animations
  */
 export const StockManagementSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const sectionRef = useRef<HTMLElement>(null);
+  const backgroundIconsRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const floatingCard1Ref = useRef<HTMLDivElement>(null);
+  const floatingCard2Ref = useRef<HTMLDivElement>(null);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [
@@ -68,24 +79,386 @@ export const StockManagementSection = () => {
     },
   ];
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+          end: "bottom 30%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // Background icons animation
+      if (backgroundIconsRef.current) {
+        const icons = backgroundIconsRef.current.querySelectorAll(".bg-icon");
+        gsap.set(icons, {
+          opacity: 0,
+          scale: 0,
+          rotation: 360,
+        });
+
+        tl.to(
+          icons,
+          {
+            opacity: 0.2,
+            scale: 1,
+            rotation: 0,
+            duration: 1.2,
+            stagger: 0.1,
+            ease: "back.out(1.7)",
+          },
+          0
+        );
+
+        // Continuous floating animation for background icons
+        gsap.to(icons, {
+          rotation: "+=360",
+          duration: 20,
+          repeat: -1,
+          ease: "none",
+          stagger: 5,
+        });
+      }
+
+      // Badge animation with bounce
+      if (badgeRef.current) {
+        gsap.set(badgeRef.current, {
+          opacity: 0,
+          scale: 0.3,
+          rotation: -180,
+        });
+
+        tl.to(
+          badgeRef.current,
+          {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+          },
+          0.2
+        );
+
+        // Badge text reveal
+        const badgeText = badgeRef.current.querySelector(".badge-text");
+        if (badgeText) {
+          gsap.set(badgeText, { opacity: 0 });
+          tl.to(
+            badgeText,
+            {
+              opacity: 1,
+              duration: 0.5,
+            },
+            0.8
+          );
+        }
+      }
+
+      // Heading animation with staggered words
+      if (headingRef.current) {
+        const words = headingRef.current.querySelectorAll(".word");
+        gsap.set(words, {
+          opacity: 0,
+          y: 100,
+          rotationX: -90,
+        });
+
+        tl.to(
+          words,
+          {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out",
+          },
+          0.4
+        );
+      }
+
+      // Description animation with typewriter effect
+      if (descriptionRef.current) {
+        gsap.set(descriptionRef.current, {
+          opacity: 0,
+          x: -100,
+        });
+
+        tl.to(
+          descriptionRef.current,
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            ease: "power2.out",
+          },
+          1.2
+        );
+
+        // Typewriter highlight effect
+        const highlight = descriptionRef.current.querySelector(
+          ".typewriter-highlight"
+        );
+        if (highlight) {
+          gsap.set(highlight, { width: 0 });
+          tl.to(
+            highlight,
+            {
+              width: "100%",
+              duration: 1.2,
+              ease: "power2.inOut",
+            },
+            1.2
+          );
+        }
+      }
+
+      // Features list animation
+      if (featuresRef.current) {
+        const features = featuresRef.current.querySelectorAll(".feature-item");
+        gsap.set(features, {
+          opacity: 0,
+          scaleY: 0,
+          transformOrigin: "bottom",
+        });
+
+        features.forEach((feature, index) => {
+          const icon = feature.querySelector(".feature-icon");
+          const title = feature.querySelector(".feature-title");
+          const desc = feature.querySelector(".feature-desc");
+
+          // Feature container
+          tl.to(
+            feature,
+            {
+              opacity: 1,
+              scaleY: 1,
+              duration: 0.6,
+              ease: "power2.out",
+            },
+            1.6 + index * 0.2
+          );
+
+          // Icon spin animation
+          if (icon) {
+            gsap.set(icon, { rotation: -180, scale: 0 });
+            tl.to(
+              icon,
+              {
+                rotation: 0,
+                scale: 1,
+                duration: 0.6,
+                ease: "back.out(1.7)",
+              },
+              1.8 + index * 0.2
+            );
+          }
+
+          // Title glitch effect
+          if (title) {
+            gsap.set(title, { opacity: 0, x: -50 });
+            tl.to(
+              title,
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.5,
+                ease: "power2.out",
+              },
+              2.0 + index * 0.2
+            );
+          }
+
+          // Description slide in
+          if (desc) {
+            gsap.set(desc, { opacity: 0, x: -100 });
+            tl.to(
+              desc,
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.7,
+                ease: "power2.out",
+              },
+              2.2 + index * 0.2
+            );
+          }
+        });
+      }
+
+      // Buttons animation with elastic effect
+      if (buttonsRef.current) {
+        const buttons = buttonsRef.current.querySelectorAll("button");
+        gsap.set(buttons, {
+          opacity: 0,
+          scale: 0.8,
+          y: 50,
+        });
+
+        tl.to(
+          buttons,
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "back.out(1.7)",
+          },
+          2.8
+        );
+      }
+
+      // Image container animation
+      if (imageContainerRef.current) {
+        gsap.set(imageContainerRef.current, {
+          opacity: 0,
+          x: 100,
+          rotationY: 25,
+        });
+
+        tl.to(
+          imageContainerRef.current,
+          {
+            opacity: 1,
+            x: 0,
+            rotationY: 0,
+            duration: 1.2,
+            ease: "power2.out",
+          },
+          0.6
+        );
+      }
+
+      // Floating cards animation
+      if (floatingCard1Ref.current) {
+        gsap.set(floatingCard1Ref.current, {
+          opacity: 0,
+          y: 50,
+          rotationX: -45,
+        });
+
+        tl.to(
+          floatingCard1Ref.current,
+          {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+          },
+          1.4
+        );
+
+        // Continuous floating animation
+        gsap.to(floatingCard1Ref.current, {
+          y: -5,
+          duration: 4,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+        });
+      }
+
+      if (floatingCard2Ref.current) {
+        gsap.set(floatingCard2Ref.current, {
+          opacity: 0,
+          y: 50,
+          rotationX: 45,
+        });
+
+        tl.to(
+          floatingCard2Ref.current,
+          {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+          },
+          1.6
+        );
+
+        // Continuous floating animation with different timing
+        gsap.to(floatingCard2Ref.current, {
+          y: 5,
+          duration: 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+          delay: 1,
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert(); // Cleanup
+  }, []);
+
+  // Button hover animations
+  const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
+    gsap.to(e.currentTarget, {
+      scale: 1.05,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  const handleButtonLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    gsap.to(e.currentTarget, {
+      scale: 1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  // Image hover animation
+  const handleImageHover = (e: React.MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.currentTarget, {
+      scale: 1.02,
+      rotationY: 5,
+      rotationX: 5,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  const handleImageLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    gsap.to(e.currentTarget, {
+      scale: 1,
+      rotationY: 0,
+      rotationX: 0,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
   return (
     <section
       id="stock-management"
-      ref={ref}
-      className="w-full h-full flex items-center justify-center relative px-2 sm:px-4"
+      ref={sectionRef}
+      className="w-full h-full flex items-center justify-center relative px-2 sm:px-4 overflow-hidden"
     >
-      {/* Background Icons - Hidden on mobile */}
-      <div className="absolute inset-0 pointer-events-none hidden md:block">
-        {decorativeIcons.map(({ Icon, position, delay }, index) => (
-          <motion.div
+      {/* Enhanced Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-green-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      {/* Background Icons with GSAP Animation */}
+      <div
+        ref={backgroundIconsRef}
+        className="absolute inset-0 pointer-events-none hidden md:block"
+      >
+        {decorativeIcons.map(({ Icon, position }, index) => (
+          <div
             key={index}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 0.2, scale: 1 }}
-            transition={{ duration: 0.8, delay }}
-            className={`absolute ${position} text-green-400`}
+            className={`absolute ${position} text-green-400 bg-icon`}
           >
             <Icon className="w-6 h-6 md:w-8 md:h-8" />
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -93,111 +466,97 @@ export const StockManagementSection = () => {
       <div className="relative z-10 w-full max-w-6xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 items-center min-h-[85vh] sm:min-h-[80vh]">
           {/* Content Side - Left */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1"
-          >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-green-500/20 text-green-300 text-xs sm:text-sm font-medium border border-green-500/30"
+          <div className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1">
+            {/* Badge with GSAP Animation */}
+            <div
+              ref={badgeRef}
+              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-green-500/20 text-green-300 text-xs sm:text-sm font-medium border border-green-500/30 backdrop-blur-sm"
             >
               <Package className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              Inventory Control
-            </motion.div>
+              <span className="badge-text">Inventory Control</span>
+            </div>
 
-            {/* Main Heading */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+            {/* Main Heading with Staggered Words */}
+            <h2
+              ref={headingRef}
               className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight"
             >
-              Smart{" "}
-              <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+              <span className="word inline-block">Smart</span>{" "}
+              <span className="word bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent inline-block">
                 Stock
               </span>{" "}
-              Management
-            </motion.h2>
+              <span className="word inline-block">Management</span>
+            </h2>
 
-            {/* Description - Hidden on very small screens */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed hidden sm:block"
-            >
-              Stay on top of inventory levels and track stock across all your
-              branches and warehouses with real-time visibility. Handle
-              disposals, faulty items & returns with ease.
-            </motion.p>
+            {/* Description with Typewriter Effect */}
+            <div className="relative overflow-hidden hidden sm:block">
+              <div className="typewriter-highlight absolute inset-0 bg-gradient-to-r from-green-400/20 to-transparent"></div>
+              <p
+                ref={descriptionRef}
+                className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed relative z-10"
+              >
+                Stay on top of inventory levels and track stock across all your
+                branches and warehouses with real-time visibility. Handle
+                disposals, faulty items & returns with ease.
+              </p>
+            </div>
 
-            {/* Features List */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+            {/* Features List with GSAP Animation */}
+            <div
+              ref={featuresRef}
               className="space-y-2 sm:space-y-3 lg:space-y-4"
             >
               {stockFeatures.map((feature, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
-                  className="flex items-start space-x-2 sm:space-x-3"
+                  className="flex items-start space-x-2 sm:space-x-3 group feature-item"
                 >
-                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-green-500/20 rounded-lg border border-green-500/30">
+                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-green-500/20 rounded-lg border border-green-500/30 group-hover:border-green-400/50 transition-all duration-300 feature-icon">
                     <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base">
+                  <div className="overflow-hidden">
+                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base feature-title">
                       {feature.title}
                     </h3>
-                    {/* Description hidden on small screens */}
-                    <p className="text-gray-300 text-xs lg:text-sm hidden sm:block">
+                    <p className="text-gray-300 text-xs lg:text-sm hidden sm:block feature-desc">
                       {feature.description}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+            {/* CTA Buttons with GSAP Animation */}
+            <div
+              ref={buttonsRef}
               className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4"
             >
-              <button className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-green-500/25">
+              <button
+                onMouseEnter={handleButtonHover}
+                onMouseLeave={handleButtonLeave}
+                className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-green-500/25"
+              >
                 Start Tracking
               </button>
-              {/* Second button hidden on very small screens */}
-              <button className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block">
+              <button
+                onMouseEnter={handleButtonHover}
+                onMouseLeave={handleButtonLeave}
+                className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block"
+              >
                 View Demo
               </button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Image Side - Right */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative order-1 lg:order-2"
-          >
+          {/* Image Side - Right with GSAP Animation */}
+          <div ref={imageContainerRef} className="relative order-1 lg:order-2">
             <div className="relative">
-              {/* Main Image - Smaller on mobile */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl border border-gray-700/50"
+              {/* Main Image with 3D Hover Effect */}
+              <div
+                onMouseEnter={handleImageHover}
+                onMouseLeave={handleImageLeave}
+                className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl border border-gray-700/50 cursor-pointer"
+                style={{ perspective: "1000px" }}
               >
                 <Image
                   src="/images/stock.png"
@@ -207,13 +566,11 @@ export const StockManagementSection = () => {
                   className="w-full h-auto object-cover max-h-[200px] sm:max-h-[250px] md:max-h-[300px] lg:max-h-[350px] xl:max-h-[400px]"
                   priority
                 />
-              </motion.div>
+              </div>
 
-              {/* Floating Stats Cards - Hidden on mobile, smaller on tablet */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
+              {/* Enhanced Floating Cards with GSAP */}
+              <div
+                ref={floatingCard1Ref}
                 className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden sm:block"
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
@@ -225,12 +582,10 @@ export const StockManagementSection = () => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.0 }}
+              <div
+                ref={floatingCard2Ref}
                 className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden md:block"
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
@@ -242,9 +597,9 @@ export const StockManagementSection = () => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

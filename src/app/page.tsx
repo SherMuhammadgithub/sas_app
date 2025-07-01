@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/sections/HeroSection";
-import { AboutSection } from "@/components/sections/AboutSection";
+// import { AboutSection } from "@/components/sections/AboutSection";
 import { StockManagementSection } from "@/components/sections/StockManagementSection";
 import { OrderManagementSection } from "@/components/sections/OrderManagementSection";
 import { CreditControlSection } from "@/components/sections/CreditControlSection";
@@ -9,15 +9,9 @@ import { DeliverySection } from "@/components/sections/DeliverySection";
 import { CustomerPortalSection } from "@/components/sections/CustomerPortalSection";
 import { ReportingComplianceSection } from "@/components/sections/ReportingComplianceSection";
 import { AutomatedGatePassSection } from "@/components/sections/AutomatedGatePassSection";
-import { FooterSection } from "@/components/sections/FooterSection";
+// import { FooterSection } from "@/components/sections/FooterSection";
 import { MorphingPortfolioContainer } from "@/components/transitions/MorphingPortfolioContainer";
 // import { FloatingNav } from "@/components/ui/FloatingNav"; // Commented out as requested
-import { FlexiblePricingSection } from "@/components/sections/FlexiblePriceSection";
-import { CustomerSatisfactionSection } from "@/components/sections/CustomerSatisfactionSection";
-// import { FooterSection } from "@/components/sections/FooterSection";
-import { SectionTransition } from "@/components/transitions/SectionTransition";
-import { SmoothScrollContainer } from "@/components/transitions/SmoothScrollContainer";
-import { FloatingNav } from "@/components/ui/FloatingNav";
 
 /**
  * Main Homepage Component
@@ -74,16 +68,6 @@ export default function Home() {
       id: "automated-gate-pass",
       component: <AutomatedGatePassSection />,
       title: "Automated Gate Pass",
-    },
-    {
-      id: "flexible-pricing",
-      component: <FlexiblePricingSection />,
-      title: "Flexible Pricing",
-    },
-    {
-      id: "customer-satisfaction",
-      component: <CustomerSatisfactionSection />,
-      title: "Customer Satisfaction",
     },
   ];
 

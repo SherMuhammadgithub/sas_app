@@ -6,18 +6,8 @@ import {
   Truck,
   Shield,
   ClipboardCheck,
-  Lock,
-  Activity,
   CheckCircle,
-  Users,
   Clock,
-  FileText,
-  Eye,
-  AlertTriangle,
-  DollarSign,
-  BarChart3,
-  Zap,
-  Settings,
   CreditCard,
 } from "lucide-react";
 
@@ -26,7 +16,7 @@ import {
  * Features automated gate-pass creation and credit control management for warehouse operations
  */
 export const AutomatedGatePassSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const { ref } = useScrollAnimation(0.3);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [

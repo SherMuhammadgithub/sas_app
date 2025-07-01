@@ -9,9 +9,7 @@ import {
   TrendingUp,
   Shield,
   Users,
-  Clock,
   CheckCircle,
-  Target,
   BarChart3,
   Handshake,
   ArrowRight,
@@ -20,7 +18,6 @@ import {
   CreditCard,
   Truck,
   Package,
-  Globe,
 } from "lucide-react";
 
 /**

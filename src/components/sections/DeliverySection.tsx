@@ -6,15 +6,9 @@ import {
   MapPin,
   Truck,
   Clock,
-  Users,
   Navigation,
-  Package,
-  Phone,
   MessageCircle,
-  Star,
   CheckCircle,
-  Zap,
-  Globe,
 } from "lucide-react";
 
 /**
@@ -22,7 +16,7 @@ import {
  * Features interactive map SVG animation with delivery tracking and customer interaction
  */
 export const DeliverySection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const { ref } = useScrollAnimation(0.3);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [

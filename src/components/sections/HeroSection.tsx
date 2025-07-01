@@ -1,28 +1,196 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 /**
  * Hero Section Component
- * Features scroll-triggered animations with staggered text effects
+ * Features subtle GSAP text animations that complement the morphing container
  */
 export const HeroSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const sectionRef = useRef<HTMLElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const infoRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const trustRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollDotRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Only animate text content with subtle effects
+    // Set initial states for text elements only
+    gsap.set(
+      [
+        badgeRef.current,
+        headingRef.current,
+        subtitleRef.current,
+        infoRef.current,
+        buttonsRef.current,
+        trustRef.current,
+        scrollRef.current,
+      ],
+      {
+        opacity: 0,
+        y: 20,
+      }
+    );
+
+    // Reduced delay - text animation starts much sooner
+    const textTl = gsap.timeline({ delay: 0.5 });
+
+    // Staggered text animations
+    textTl
+      .to(badgeRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+      })
+      .to(
+        headingRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        },
+        "-=0.4"
+      )
+      .to(
+        subtitleRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.4"
+      )
+      .to(
+        infoRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.3"
+      )
+      .to(
+        buttonsRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.3"
+      )
+      .to(
+        trustRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.3"
+      )
+      .to(
+        scrollRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        "-=0.2"
+      );
+
+    // Continuous scroll indicator animation (starts sooner)
+    gsap.to(scrollRef.current, {
+      y: 8,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "power2.inOut",
+      delay: 2,
+    });
+
+    gsap.to(scrollDotRef.current, {
+      y: 10,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "power2.inOut",
+      delay: 2,
+    });
+  }, []);
+
+  // Button hover animations
+  const handleButtonHover = (
+    button: HTMLButtonElement,
+    isHovering: boolean
+  ) => {
+    if (isHovering) {
+      gsap.to(button, {
+        scale: 1.05,
+        boxShadow: "0 20px 40px rgba(46, 213, 115, 0.3)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(button, {
+        scale: 1,
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  };
+
+  const handleSecondaryButtonHover = (
+    button: HTMLButtonElement,
+    isHovering: boolean
+  ) => {
+    if (isHovering) {
+      gsap.to(button, {
+        scale: 1.05,
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(button, {
+        scale: 1,
+        backgroundColor: "transparent",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  };
+
+  const handleButtonClick = (button: HTMLButtonElement) => {
+    gsap.to(button, {
+      scale: 0.95,
+      duration: 0.1,
+      ease: "power2.out",
+      yoyo: true,
+      repeat: 1,
+    });
+  };
 
   return (
     <section
       id="hero"
-      ref={ref}
-      className="w-full h-[100vh] flex items-center justify-center relative"
+      ref={sectionRef}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-gray-900 to-black dark:from-gray-900 dark:to-black gpu-accelerated"
     >
-      {/* Background Image */}
-      <motion.div
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={
-          isInView ? { scale: 1, opacity: 0.4 } : { scale: 1.1, opacity: 0 }
-        }
-        transition={{ duration: 2 }}
+      {/* Background Image - No animation (handled by morphing container) */}
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
@@ -48,11 +216,8 @@ export const HeroSection = () => {
         }}
       />
 
-      {/* Grid Pattern Overlay */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 0.1 } : { opacity: 0 }}
-        transition={{ duration: 1.5, delay: 0.5 }}
+      {/* Grid Pattern Overlay - No animation (handled by morphing container) */}
+      <div
         className="absolute inset-0"
         style={{
           backgroundImage: `url('data:image/svg+xml;base64,${btoa(`
@@ -64,28 +229,14 @@ export const HeroSection = () => {
         }}
       />
 
-      {/* Animated Background Gradient */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={
-          isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }
-        }
-        transition={{ duration: 1.5 }}
-        className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-green-500/20 opacity-50"
-      />
+      {/* Animated Background Gradient - No animation (handled by morphing container) */}
+      <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-green-500/20 opacity-50" />
 
-      {/* Main Content Container */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.8, staggerChildren: 0.3 }}
-        className="text-center z-10  px-4 sm:px-6 max-w-4xl lg:max-w-5xl py-4 xl:py-0"
-      >
+      {/* Main Content Container - Only text animations */}
+      <div className="text-center  z-10 px-4 sm:px-6 max-w-4xl lg:max-w-5xl py-6 xl:py-0">
         {/* Author Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <div
+          ref={badgeRef}
           className="flex items-center justify-center mb-4 sm:mb-6"
         >
           <div className="flex items-center bg-green-500/20 backdrop-blur-sm border border-green-500/30 rounded-full px-3 py-1.5 sm:px-4 sm:py-2">
@@ -96,17 +247,11 @@ export const HeroSection = () => {
               by Ali Abdulla
             </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Main Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 50, scale: 0.9 }}
-          animate={
-            isInView
-              ? { opacity: 1, y: 0, scale: 1 }
-              : { opacity: 0, y: 50, scale: 0.9 }
-          }
-          transition={{ duration: 0.8, delay: 0.2 }}
+        <h1
+          ref={headingRef}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-playfair font-bold text-white mb-4 sm:mb-6 leading-tight px-2"
         >
           Optimize Your Business Operations with
@@ -116,13 +261,11 @@ export const HeroSection = () => {
           <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
             All-in-One SaaS Platform
           </span>
-        </motion.h1>
+        </h1>
 
         {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+        <p
+          ref={subtitleRef}
           className="text-sm sm:text-base md:text-lg text-gray-300 mb-4 sm:mb-6 leading-relaxed max-w-3xl mx-auto px-2 font-inter"
         >
           Are you eager to save time and money by streamlining your business
@@ -134,54 +277,48 @@ export const HeroSection = () => {
           with unlimited users, this all-in-one platform empowers you to manage
           orders, inventory, deliveries, payments, and reporting with unmatched
           ease and accuracy.
-        </motion.p>
+        </p>
 
         {/* Additional Info */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+        <p
+          ref={infoRef}
           className="text-xs sm:text-sm md:text-base text-gray-400 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto px-2 font-inter"
         >
           This document explores the key features that enable operational
           excellence and increased customer satisfaction.
-        </motion.p>
+        </p>
 
         {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+        <div
+          ref={buttonsRef}
           className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2"
         >
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 20px 40px rgba(46, 213, 115, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
+          <button
+            onMouseEnter={(e) => handleButtonHover(e.currentTarget, true)}
+            onMouseLeave={(e) => handleButtonHover(e.currentTarget, false)}
+            onClick={(e) => handleButtonClick(e.currentTarget)}
             className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base lg:text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 w-full sm:w-auto sm:min-w-[180px] font-poppins"
           >
             Start Free Trial
-          </motion.button>
+          </button>
 
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-            }}
-            whileTap={{ scale: 0.95 }}
+          <button
+            onMouseEnter={(e) =>
+              handleSecondaryButtonHover(e.currentTarget, true)
+            }
+            onMouseLeave={(e) =>
+              handleSecondaryButtonHover(e.currentTarget, false)
+            }
+            onClick={(e) => handleButtonClick(e.currentTarget)}
             className="border-2 border-green-500 text-green-400 px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base lg:text-lg font-semibold hover:bg-green-500/10 transition-all duration-300 w-full sm:w-auto sm:min-w-[180px] font-poppins"
           >
             Watch Demo
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
 
         {/* Trust Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+        <div
+          ref={trustRef}
           className="mt-8 sm:mt-12 lg:mt-16 flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 text-gray-400 text-xs sm:text-sm px-2"
         >
           <div className="flex items-center gap-1.5 sm:gap-2">
@@ -200,28 +337,21 @@ export const HeroSection = () => {
             <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full"></span>
             <span>SOC 2 Compliant</span>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
+      <div
+        ref={scrollRef}
         className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 transform -translate-x-1/2"
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-green-400 rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+        <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-green-400 rounded-full flex justify-center">
+          <div
+            ref={scrollDotRef}
             className="w-1 h-2 sm:h-3 bg-green-400 rounded-full mt-1.5 sm:mt-2"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };

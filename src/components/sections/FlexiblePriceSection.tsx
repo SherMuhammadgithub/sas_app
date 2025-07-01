@@ -9,11 +9,8 @@ import {
   TrendingUp,
   Shield,
   Zap,
-  Target,
   BarChart3,
-  Clock,
   Star,
-  Infinity,
   ArrowRight,
 } from "lucide-react";
 
@@ -22,7 +19,7 @@ import {
  * Features transparent pricing with unlimited users and comprehensive value proposition
  */
 export const FlexiblePricingSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const { ref } = useScrollAnimation(0.3);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [

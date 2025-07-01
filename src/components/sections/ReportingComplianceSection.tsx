@@ -8,17 +8,7 @@ import {
   FileText,
   Shield,
   Clock,
-  CheckCircle,
-  PieChart,
   Activity,
-  AlertTriangle,
-  Download,
-  Eye,
-  Settings,
-  Target,
-  DollarSign,
-  Users,
-  Zap,
 } from "lucide-react";
 
 /**
@@ -26,7 +16,7 @@ import {
  * Features powerful analytics, reporting tools, and EFRIS compliance integration
  */
 export const ReportingComplianceSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const { ref } = useScrollAnimation(0.3);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [

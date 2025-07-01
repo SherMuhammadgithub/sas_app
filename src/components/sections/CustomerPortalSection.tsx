@@ -9,18 +9,11 @@ import {
   Bell,
   Shield,
   Smartphone,
-  Globe,
   Activity,
   Lock,
-  Download,
   Eye,
-  FileText,
   Calendar,
   BarChart3,
-  Zap,
-  Heart,
-  Star,
-  Settings,
 } from "lucide-react";
 
 /**
@@ -28,7 +21,7 @@ import {
  * Features customer self-service capabilities and mobile app integration
  */
 export const CustomerPortalSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const { ref } = useScrollAnimation(0.3);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [

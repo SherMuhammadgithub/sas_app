@@ -7,18 +7,13 @@ import {
   Smartphone,
   Users,
   Clock,
-  CheckCircle,
-  Bell,
   ShoppingCart,
   Headphones,
   Zap,
-  Globe,
   Star,
-  Heart,
   Send,
   Phone,
   Video,
-  MoreHorizontal,
 } from "lucide-react";
 
 /**
@@ -26,7 +21,7 @@ import {
  * Features WhatsApp business messaging integration for customer communication
  */
 export const WhatsAppIntegrationSection = () => {
-  const { ref, isInView } = useScrollAnimation(0.3);
+  const { ref } = useScrollAnimation(0.3);
 
   // Decorative icons - hidden on small screens
   const decorativeIcons = [
@@ -77,13 +72,13 @@ export const WhatsAppIntegrationSection = () => {
   const chatMessages = [
     {
       type: "received",
-      message: "Hello, I'd like to order a cake for Saturday",
+      message: "Hello, I&apos;d like to order a cake for Saturday",
       time: "11:42",
       isCustomer: true,
     },
     {
       type: "sent",
-      message: "Welcome to Sandra's Cakes! 🧁",
+      message: "Welcome to Sandra&apos;s Cakes! 🧁",
       time: "11:42",
       isCustomer: false,
     },
@@ -241,7 +236,7 @@ export const WhatsAppIntegrationSection = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-xs sm:text-sm">
-                          Sandra's Cakes
+                          Sandra&apos;s Cakes
                         </h3>
                         <p className="text-xs text-green-200 hidden sm:block">
                           online
