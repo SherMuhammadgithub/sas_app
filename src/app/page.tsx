@@ -9,7 +9,9 @@ import { DeliverySection } from "@/components/sections/DeliverySection";
 import { CustomerPortalSection } from "@/components/sections/CustomerPortalSection";
 import { ReportingComplianceSection } from "@/components/sections/ReportingComplianceSection";
 import { AutomatedGatePassSection } from "@/components/sections/AutomatedGatePassSection";
-import { FooterSection } from "@/components/sections/FooterSection";
+import { FlexiblePricingSection } from "@/components/sections/FlexiblePriceSection";
+import { CustomerSatisfactionSection } from "@/components/sections/CustomerSatisfactionSection";
+// import { FooterSection } from "@/components/sections/FooterSection";
 import { SectionTransition } from "@/components/transitions/SectionTransition";
 import { SmoothScrollContainer } from "@/components/transitions/SmoothScrollContainer";
 import { FloatingNav } from "@/components/ui/FloatingNav";
@@ -71,6 +73,15 @@ export default function Home() {
         <SectionTransition>
           <AutomatedGatePassSection />
         </SectionTransition>
+
+        <SectionTransition>
+          <FlexiblePricingSection />
+        </SectionTransition>
+
+        <SectionTransition>
+          <CustomerSatisfactionSection />
+        </SectionTransition>
+
 
         {/* Floating Navigation for smooth section transitions */}
         <FloatingNav />
