@@ -225,12 +225,12 @@ export const MorphingPortfolioContainer = ({
       {/* Navigation Instructions - Moved higher and better positioned */}
       <div className="fixed top-2 sm:top-6 md:top-8 right-2 sm:right-4 md:right-8 z-50 text-white/60 text-xs sm:text-sm text-right md:mr-10">
         <div className="hidden sm:block">Click dots to jump to section</div>
-        <div className="sm:hidden">Tap dots to jump</div>
+        {/* <div className="sm:hidden">Tap dots to jump</div> */}
       </div>
 
       {/* Mobile-only swipe hint */}
       <div className="fixed bottom-4 right-2 z-50 text-white/60 text-xs text-right sm:hidden">
-        <div>Tap dots to jump</div>
+        {/* <div>Tap dots to jump</div> */}
       </div>
     </div>
   );

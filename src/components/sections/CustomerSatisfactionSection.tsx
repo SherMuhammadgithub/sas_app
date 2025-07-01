@@ -67,7 +67,8 @@ export const CustomerSatisfactionSection = () => {
     },
     {
       title: "Real-time Inventory Tracking",
-      description: "Live inventory visibility across all locations and channels",
+      description:
+        "Live inventory visibility across all locations and channels",
       icon: BarChart3,
     },
     {
@@ -228,9 +229,10 @@ export const CustomerSatisfactionSection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-inter max-w-4xl mx-auto"
           >
-            Transform your operations with our all-in-one SaaS platform. Streamline workflows, 
-            reduce manual tasks, and prevent costly errors while delivering exceptional customer 
-            experiences that drive business growth.
+            Transform your operations with our all-in-one SaaS platform.
+            Streamline workflows, reduce manual tasks, and prevent costly errors
+            while delivering exceptional customer experiences that drive
+            business growth.
           </motion.p>
         </div>
 
@@ -298,7 +300,9 @@ export const CustomerSatisfactionSection = () => {
                         key={statIndex}
                         initial={{ opacity: 0, scale: 0 }}
                         animate={
-                          isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
+                          isInView
+                            ? { opacity: 1, scale: 1 }
+                            : { opacity: 0, scale: 0 }
                         }
                         transition={{
                           duration: 0.4,
@@ -407,7 +411,8 @@ export const CustomerSatisfactionSection = () => {
                 Proven Transformation Outcomes
               </h3>
               <p className="text-green-100 font-inter">
-                Join thousands of businesses that have already transformed their operations
+                Join thousands of businesses that have already transformed their
+                operations
               </p>
             </motion.div>
 
@@ -419,7 +424,9 @@ export const CustomerSatisfactionSection = () => {
                     key={index}
                     initial={{ opacity: 0, scale: 0 }}
                     animate={
-                      isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
+                      isInView
+                        ? { opacity: 1, scale: 1 }
+                        : { opacity: 0, scale: 0 }
                     }
                     transition={{
                       duration: 0.6,
@@ -481,10 +488,11 @@ export const CustomerSatisfactionSection = () => {
               Let Us Partner With You
             </h3>
             <p className="text-lg text-gray-600 dark:text-gray-300 font-inter leading-relaxed mb-8">
-              Transform your operations, reduce expenses, and elevate customer satisfaction 
-              consistently. With enhanced order handling, real-time inventory tracking, 
-              transparent deliveries, and integrated financial tools, your business will 
-              reach new operational efficiency heights.
+              Transform your operations, reduce expenses, and elevate customer
+              satisfaction consistently. With enhanced order handling, real-time
+              inventory tracking, transparent deliveries, and integrated
+              financial tools, your business will reach new operational
+              efficiency heights.
             </p>
 
             <motion.div
