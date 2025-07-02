@@ -94,8 +94,8 @@ export const StockManagementSection = () => {
             opacity: 0.2,
             scale: 1,
             rotation: 0,
-            duration: 1.2,
-            stagger: 0.1,
+            duration: 0.7,
+            stagger: 0.08,
             ease: "back.out(1.7)",
           },
           0
@@ -104,10 +104,10 @@ export const StockManagementSection = () => {
         // Continuous floating animation for background icons
         gsap.to(icons, {
           rotation: "+=360",
-          duration: 20,
+          duration: 14,
           repeat: -1,
           ease: "none",
-          stagger: 5,
+          stagger: 4,
         });
       }
 
@@ -125,10 +125,10 @@ export const StockManagementSection = () => {
             opacity: 1,
             scale: 1,
             rotation: 0,
-            duration: 0.8,
+            duration: 0.5,
             ease: "back.out(1.7)",
           },
-          0.2
+          0.12
         );
 
         // Badge text reveal
@@ -139,9 +139,9 @@ export const StockManagementSection = () => {
             badgeText,
             {
               opacity: 1,
-              duration: 0.5,
+              duration: 0.3,
             },
-            0.8
+            0.5
           );
         }
       }
@@ -161,11 +161,11 @@ export const StockManagementSection = () => {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 0.8,
-            stagger: 0.2,
+            duration: 0.5,
+            stagger: 0.13,
             ease: "power3.out",
           },
-          0.4
+          0.22
         );
       }
 
@@ -181,10 +181,10 @@ export const StockManagementSection = () => {
           {
             opacity: 1,
             x: 0,
-            duration: 0.7,
+            duration: 0.4,
             ease: "power2.out",
           },
-          1.2
+          0.7
         );
 
         // Typewriter highlight effect
@@ -197,10 +197,10 @@ export const StockManagementSection = () => {
             highlight,
             {
               width: "100%",
-              duration: 1.2,
+              duration: 0.7,
               ease: "power2.inOut",
             },
-            1.2
+            0.7
           );
         }
       }
@@ -225,10 +225,10 @@ export const StockManagementSection = () => {
             {
               opacity: 1,
               scaleY: 1,
-              duration: 0.6,
+              duration: 0.35,
               ease: "power2.out",
             },
-            1.6 + index * 0.2
+            1.0 + index * 0.13
           );
 
           // Icon spin animation
@@ -239,10 +239,10 @@ export const StockManagementSection = () => {
               {
                 rotation: 0,
                 scale: 1,
-                duration: 0.6,
+                duration: 0.35,
                 ease: "back.out(1.7)",
               },
-              1.8 + index * 0.2
+              1.13 + index * 0.13
             );
           }
 
@@ -254,10 +254,10 @@ export const StockManagementSection = () => {
               {
                 opacity: 1,
                 x: 0,
-                duration: 0.5,
+                duration: 0.25,
                 ease: "power2.out",
               },
-              2.0 + index * 0.2
+              1.25 + index * 0.13
             );
           }
 
@@ -269,10 +269,10 @@ export const StockManagementSection = () => {
               {
                 opacity: 1,
                 x: 0,
-                duration: 0.7,
+                duration: 0.4,
                 ease: "power2.out",
               },
-              2.2 + index * 0.2
+              1.38 + index * 0.13
             );
           }
         });
@@ -293,11 +293,11 @@ export const StockManagementSection = () => {
             opacity: 1,
             scale: 1,
             y: 0,
-            duration: 0.8,
-            stagger: 0.1,
+            duration: 0.5,
+            stagger: 0.08,
             ease: "back.out(1.7)",
           },
-          2.8
+          1.8
         );
       }
 
@@ -315,10 +315,10 @@ export const StockManagementSection = () => {
             opacity: 1,
             x: 0,
             rotationY: 0,
-            duration: 1.2,
+            duration: 0.7,
             ease: "power2.out",
           },
-          0.6
+          0.32
         );
       }
 
@@ -336,16 +336,16 @@ export const StockManagementSection = () => {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 0.8,
+            duration: 0.5,
             ease: "back.out(1.7)",
           },
-          1.4
+          0.9
         );
 
         // Continuous floating animation
         gsap.to(floatingCard1Ref.current, {
           y: -5,
-          duration: 4,
+          duration: 2.5,
           repeat: -1,
           yoyo: true,
           ease: "power1.inOut",
@@ -365,20 +365,20 @@ export const StockManagementSection = () => {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 0.8,
+            duration: 0.5,
             ease: "back.out(1.7)",
           },
-          1.6
+          1.05
         );
 
         // Continuous floating animation with different timing
         gsap.to(floatingCard2Ref.current, {
           y: 5,
-          duration: 3,
+          duration: 2,
           repeat: -1,
           yoyo: true,
           ease: "power1.inOut",
-          delay: 1,
+          delay: 0.5,
         });
       }
     }, sectionRef);
@@ -390,7 +390,7 @@ export const StockManagementSection = () => {
   const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
     gsap.to(e.currentTarget, {
       scale: 1.05,
-      duration: 0.3,
+      duration: 0.18,
       ease: "power2.out",
     });
   };
@@ -398,7 +398,7 @@ export const StockManagementSection = () => {
   const handleButtonLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
     gsap.to(e.currentTarget, {
       scale: 1,
-      duration: 0.3,
+      duration: 0.18,
       ease: "power2.out",
     });
   };
@@ -409,7 +409,7 @@ export const StockManagementSection = () => {
       scale: 1.02,
       rotationY: 5,
       rotationX: 5,
-      duration: 0.3,
+      duration: 0.18,
       ease: "power2.out",
     });
   };
@@ -419,7 +419,7 @@ export const StockManagementSection = () => {
       scale: 1,
       rotationY: 0,
       rotationX: 0,
-      duration: 0.3,
+      duration: 0.18,
       ease: "power2.out",
     });
   };
@@ -478,7 +478,7 @@ export const StockManagementSection = () => {
             </h2>
 
             {/* Description with Typewriter Effect */}
-            <div className="relative overflow-hidden hidden sm:block">
+            <div className="relative overflow-hidden ">
               <div className="typewriter-highlight absolute inset-0 bg-gradient-to-r from-green-400/20 to-transparent"></div>
               <p
                 ref={descriptionRef}
@@ -504,7 +504,7 @@ export const StockManagementSection = () => {
                     <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
                   </div>
                   <div className="overflow-hidden">
-                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base feature-title">
+                    <h3 className="font-semibold text-white text-sm sm:text-base lg:text-base feature-title">
                       {feature.title}
                     </h3>
                     <p className="text-gray-300 text-xs lg:text-sm hidden sm:block feature-desc">
@@ -523,14 +523,14 @@ export const StockManagementSection = () => {
               <button
                 onMouseEnter={handleButtonHover}
                 onMouseLeave={handleButtonLeave}
-                className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-green-500/25"
+                className="px-4  sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-sm sm:text-base lg:text-base shadow-lg shadow-green-500/25"
               >
                 Start Tracking
               </button>
               <button
                 onMouseEnter={handleButtonHover}
                 onMouseLeave={handleButtonLeave}
-                className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block"
+                className="px-4 py-2.5 sm:py-3 sm:px-6  border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-sm sm:text-base lg:text-base hidden sm:block"
               >
                 View Demo
               </button>

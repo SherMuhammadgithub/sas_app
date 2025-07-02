@@ -22,13 +22,18 @@ export const MorphingPortfolioContainer = ({
   const lastScrollTime = useRef(0);
   const scrollDirection = useRef<"up" | "down">("down");
   const touchStartY = useRef(0);
+  const scrollAccumulator = useRef(0);
+  const SCROLL_THRESHOLD = 180;
 
   const sectionThemes = [
     { accentColor: "#10b981", dotColor: "rgba(16, 185, 129, 0.6)" },
-    { accentColor: "#22c55e", dotColor: "rgba(34, 197, 94, 0.6)" },
-    { accentColor: "#3b82f6", dotColor: "rgba(59, 130, 246, 0.6)" },
+    { accentColor: "#10b981", dotColor: "rgba(16, 185, 129, 0.6)" },
+    { accentColor: "#10b981", dotColor: "rgba(16, 185, 129, 0.6)" },
+    { accentColor: "#6366f1", dotColor: "rgba(99, 102, 241, 0.6)" },
     { accentColor: "#6366f1", dotColor: "rgba(99, 102, 241, 0.6)" },
     { accentColor: "#9333ea", dotColor: "rgba(147, 51, 234, 0.6)" },
+    { accentColor: "#3b82f6", dotColor: "rgba(59, 130, 246, 0.6)" },
+    { accentColor: "#3b82f6", dotColor: "rgba(59, 130, 246, 0.6)" },
   ];
 
   const getCurrentTheme = () =>
@@ -48,7 +53,6 @@ export const MorphingPortfolioContainer = ({
     return `data:image/svg+xml;base64,${btoa(dotSvg)}`;
   };
 
-  // Faster transition duration (500ms instead of 800ms)
   const TRANSITION_DURATION = 0.5;
 
   useEffect(() => {
@@ -90,10 +94,21 @@ export const MorphingPortfolioContainer = ({
 
       if (timeDiff < TRANSITION_DURATION * 1000 || isTransitioning) return;
 
+      // Normalize wheel delta (trackpad vs mouse wheel)
+      const delta = Math.abs(e.deltaY) > 50 ? e.deltaY / 3 : e.deltaY;
+
+      // Accumulate scroll
+      scrollAccumulator.current += Math.abs(delta);
+
+      // Only proceed if accumulated enough scroll
+      if (scrollAccumulator.current < SCROLL_THRESHOLD) return;
+
+      // Reset accumulator
+      scrollAccumulator.current = 0;
       lastScrollTime.current = now;
       setIsTransitioning(true);
 
-      if (e.deltaY > 0) {
+      if (delta > 0) {
         scrollDirection.current = "down";
         setCurrentSectionIndex((prev) =>
           prev < sections.length - 1 ? prev + 1 : prev
@@ -246,16 +261,14 @@ export const MorphingPortfolioContainer = ({
       </div>
 
       {/* Section Indicators (unchanged) */}
-      <div className="fixed right-2 sm:right-4 md:right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-3 sm:space-y-4">
+      <div className="fixed right-2 hidden sm:right-4 md:right-6 top-1/2 transform -translate-y-1/2 z-50 md:flex flex-col space-y-3 sm:space-y-4">
         {sections.map((_, index) => {
           const theme = sectionThemes[index] || sectionThemes[0];
           const isActive = index === currentSectionIndex;
 
           return (
-            <motion.button
+            <button
               key={index}
-              whileHover={{ scale: 1.3 }}
-              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 if (!isTransitioning && index !== currentSectionIndex) {
                   setIsTransitioning(true);
@@ -268,7 +281,7 @@ export const MorphingPortfolioContainer = ({
                   );
                 }
               }}
-              className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full transition-all duration-300 ${
+              className={`relative w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full transition-all duration-300 cursor-pointer ${
                 isActive ? "" : "bg-white/30 hover:bg-white/50"
               }`}
               style={{
@@ -280,14 +293,12 @@ export const MorphingPortfolioContainer = ({
               aria-label={`Go to ${sections[index]?.title}`}
             >
               {isActive && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.3 }}
+                <div
                   className="absolute inset-0.5 rounded-full"
+                  style={{ background: "transparent" }}
                 />
               )}
-            </motion.button>
+            </button>
           );
         })}
       </div>
@@ -304,7 +315,7 @@ export const MorphingPortfolioContainer = ({
         >
           {sections[currentSectionIndex]?.title}
         </motion.div>
-        <div className="flex items-center mt-2 sm:mt-3 space-x-2 sm:space-x-3">
+        <div className="flex items-center sm:mt-3 space-x-2 sm:space-x-3">
           <div className="text-white/70 text-xs sm:text-sm font-medium">
             {currentSectionIndex + 1} / {sections.length}
           </div>

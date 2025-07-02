@@ -90,8 +90,8 @@ export const OrderManagementSection = () => {
             opacity: 0.2,
             scale: 1,
             rotation: 0,
-            duration: 1.2,
-            stagger: 0.1,
+            duration: 0.7, // faster
+            stagger: 0.07, // faster
             ease: "back.out(1.7)",
           },
           0
@@ -100,10 +100,10 @@ export const OrderManagementSection = () => {
         // Continuous floating animation for background icons
         gsap.to(icons, {
           rotation: "+=360",
-          duration: 20,
+          duration: 12, // faster
           repeat: -1,
           ease: "none",
-          stagger: 5,
+          stagger: 3, // faster
         });
       }
 
@@ -121,10 +121,10 @@ export const OrderManagementSection = () => {
             opacity: 1,
             scale: 1,
             rotation: 0,
-            duration: 0.8,
+            duration: 0.5, // faster
             ease: "back.out(1.7)",
           },
-          0.2
+          0.1 // slightly earlier
         );
 
         // Badge text reveal
@@ -135,9 +135,9 @@ export const OrderManagementSection = () => {
             badgeText,
             {
               opacity: 1,
-              duration: 0.5,
+              duration: 0.3, // faster
             },
-            0.8
+            0.5 // earlier
           );
         }
       }
@@ -157,11 +157,11 @@ export const OrderManagementSection = () => {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 0.8,
-            stagger: 0.2,
+            duration: 0.5, // faster
+            stagger: 0.13, // faster
             ease: "power3.out",
           },
-          0.4
+          0.2 // earlier
         );
       }
 
@@ -177,10 +177,10 @@ export const OrderManagementSection = () => {
           {
             opacity: 1,
             x: 0,
-            duration: 0.7,
+            duration: 0.4, // faster
             ease: "power2.out",
           },
-          1.2
+          0.8 // earlier
         );
 
         // Typewriter highlight effect
@@ -193,10 +193,10 @@ export const OrderManagementSection = () => {
             highlight,
             {
               width: "100%",
-              duration: 1.2,
+              duration: 0.7, // faster
               ease: "power2.inOut",
             },
-            1.2
+            0.8 // earlier
           );
         }
       }
@@ -221,10 +221,10 @@ export const OrderManagementSection = () => {
             {
               opacity: 1,
               scaleY: 1,
-              duration: 0.6,
+              duration: 0.35, // faster
               ease: "power2.out",
             },
-            1.6 + index * 0.2
+            1.1 + index * 0.13 // earlier & faster stagger
           );
 
           // Icon spin animation
@@ -235,10 +235,10 @@ export const OrderManagementSection = () => {
               {
                 rotation: 0,
                 scale: 1,
-                duration: 0.6,
+                duration: 0.35, // faster
                 ease: "back.out(1.7)",
               },
-              1.8 + index * 0.2
+              1.2 + index * 0.13 // earlier
             );
           }
 
@@ -250,10 +250,10 @@ export const OrderManagementSection = () => {
               {
                 opacity: 1,
                 x: 0,
-                duration: 0.5,
+                duration: 0.25, // faster
                 ease: "power2.out",
               },
-              2.0 + index * 0.2
+              1.35 + index * 0.13 // earlier
             );
           }
 
@@ -265,10 +265,10 @@ export const OrderManagementSection = () => {
               {
                 opacity: 1,
                 x: 0,
-                duration: 0.7,
+                duration: 0.4, // faster
                 ease: "power2.out",
               },
-              2.2 + index * 0.2
+              1.5 + index * 0.13 // earlier
             );
           }
         });
@@ -289,11 +289,11 @@ export const OrderManagementSection = () => {
             opacity: 1,
             scale: 1,
             y: 0,
-            duration: 0.8,
-            stagger: 0.1,
+            duration: 0.5, // faster
+            stagger: 0.07, // faster
             ease: "back.out(1.7)",
           },
-          2.8
+          2.0 // earlier
         );
       }
 
@@ -311,10 +311,10 @@ export const OrderManagementSection = () => {
             opacity: 1,
             x: 0,
             rotationY: 0,
-            duration: 1.2,
+            duration: 0.7, // faster
             ease: "power2.out",
           },
-          0.6
+          0.4 // earlier
         );
       }
 
@@ -332,16 +332,16 @@ export const OrderManagementSection = () => {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 0.8,
+            duration: 0.5, // faster
             ease: "back.out(1.7)",
           },
-          1.4
+          0.9 // earlier
         );
 
         // Continuous floating animation
         gsap.to(floatingCard1Ref.current, {
           y: -5,
-          duration: 4,
+          duration: 2.2, // faster
           repeat: -1,
           yoyo: true,
           ease: "power1.inOut",
@@ -361,20 +361,20 @@ export const OrderManagementSection = () => {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 0.8,
+            duration: 0.5, // faster
             ease: "back.out(1.7)",
           },
-          1.6
+          1.1 // earlier
         );
 
         // Continuous floating animation with different timing
         gsap.to(floatingCard2Ref.current, {
           y: 5,
-          duration: 3,
+          duration: 1.7, // faster
           repeat: -1,
           yoyo: true,
           ease: "power1.inOut",
-          delay: 1,
+          delay: 0.5, // earlier
         });
       }
     }, sectionRef);
@@ -426,10 +426,10 @@ export const OrderManagementSection = () => {
       ref={sectionRef}
       className="w-full h-full flex items-center justify-center relative px-2 sm:px-4 overflow-hidden"
     >
-      {/* Enhanced Background Effects with Blue Theme */}
+      {/* Enhanced Background Effects with Emerald Theme */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/3 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/3 left-1/3 w-72 h-72 bg-emerald-500/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       {/* Background Icons with GSAP Wave Animation */}
@@ -440,7 +440,7 @@ export const OrderManagementSection = () => {
         {decorativeIcons.map(({ Icon, position }, index) => (
           <div
             key={index}
-            className={`absolute ${position} text-blue-400 bg-icon`}
+            className={`absolute ${position} text-emerald-400 bg-icon`}
           >
             <Icon className="w-6 h-6 md:w-8 md:h-8" />
           </div>
@@ -452,10 +452,10 @@ export const OrderManagementSection = () => {
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 items-center min-h-[85vh] sm:min-h-[80vh]">
           {/* Content Side - Left */}
           <div className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1">
-            {/* Badge with Blue Theme */}
+            {/* Badge with Emerald Theme */}
             <div
               ref={badgeRef}
-              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-blue-500/20 text-blue-300 text-xs sm:text-sm font-medium border border-blue-500/30 backdrop-blur-sm"
+              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 text-sm sm:text-base font-medium border border-emerald-500/30 backdrop-blur-sm"
             >
               <Package className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               <span className="badge-text">Order Management</span>
@@ -468,17 +468,17 @@ export const OrderManagementSection = () => {
             >
               <span className="word inline-block">Streamline</span>{" "}
               <span className="word inline-block">Your</span>{" "}
-              <span className="word bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
+              <span className="word bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent inline-block">
                 Order
               </span>{" "}
-              <span className="word bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
+              <span className="word bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent inline-block">
                 Flow
               </span>
             </h2>
 
             {/* Description with Typewriter Effect */}
-            <div className="relative overflow-hidden hidden sm:block">
-              <div className="typewriter-highlight absolute inset-0 bg-gradient-to-r from-blue-400/20 to-transparent"></div>
+            <div className="relative overflow-hidden ">
+              <div className="typewriter-highlight absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-transparent"></div>
               <p
                 ref={descriptionRef}
                 className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed relative z-10"
@@ -498,11 +498,11 @@ export const OrderManagementSection = () => {
                   key={index}
                   className="flex items-start space-x-2 sm:space-x-3 group feature-item"
                 >
-                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-blue-500/20 rounded-lg border border-blue-500/30 group-hover:border-blue-400/50 transition-all duration-300 feature-icon">
-                    <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-emerald-500/20 rounded-lg border border-emerald-500/30 group-hover:border-emerald-400/50 transition-all duration-300 feature-icon">
+                    <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
                   <div className="overflow-hidden">
-                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base feature-title">
+                    <h3 className="font-semibold text-white text-sm sm:text-base lg:text-base feature-title">
                       {feature.title}
                     </h3>
                     <p className="text-gray-300 text-xs lg:text-sm hidden sm:block feature-desc">
@@ -521,14 +521,14 @@ export const OrderManagementSection = () => {
               <button
                 onMouseEnter={handleButtonHover}
                 onMouseLeave={handleButtonLeave}
-                className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-blue-500/25"
+                className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white font-semibold rounded-lg hover:from-emerald-600 hover:to-green-600 transition-all duration-300 text-sm sm:text-base lg:text-base shadow-lg shadow-emerald-500/25"
               >
                 Start Free Trial
               </button>
               <button
                 onMouseEnter={handleButtonHover}
                 onMouseLeave={handleButtonLeave}
-                className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-blue-400 text-blue-400 font-semibold rounded-lg hover:bg-blue-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block"
+                className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-emerald-400 text-emerald-400 font-semibold rounded-lg hover:bg-emerald-500/10 transition-all duration-300 text-sm sm:text-base lg:text-base hidden sm:block"
               >
                 View Demo
               </button>
@@ -561,10 +561,10 @@ export const OrderManagementSection = () => {
                 className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden sm:block"
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
-                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   <div>
                     <p className="text-xs text-gray-400">Orders</p>
-                    <p className="text-xs sm:text-sm font-bold text-white">
+                    <p className="text-sm sm:text-base font-bold text-white">
                       1,247
                     </p>
                   </div>
@@ -576,10 +576,10 @@ export const OrderManagementSection = () => {
                 className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden md:block"
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   <div>
                     <p className="text-xs text-gray-400">Rating</p>
-                    <p className="text-xs sm:text-sm font-bold text-white">
+                    <p className="text-sm sm:text-base font-bold text-white">
                       98.7%
                     </p>
                   </div>

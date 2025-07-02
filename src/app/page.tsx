@@ -20,7 +20,7 @@ export default function Home() {
     {
       id: "hero",
       component: <HeroSection />,
-      title: "Welcome to Portfolio",
+      title: "Welcome to SaaS",
     },
     {
       id: "stock-management",
@@ -43,14 +43,14 @@ export default function Home() {
       title: "Payment Integration",
     },
     {
-      id: "whatsapp-integration",
-      component: <WhatsAppIntegrationSection />,
-      title: "WhatsApp Integration",
-    },
-    {
       id: "delivery",
       component: <DeliverySection />,
       title: "Delivery Tracking",
+    },
+    {
+      id: "whatsapp-integration",
+      component: <WhatsAppIntegrationSection />,
+      title: "WhatsApp Integration",
     },
     {
       id: "customer-portal",

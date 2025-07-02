@@ -25,7 +25,7 @@ export const DeliverySection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.1 });
+      const tl = gsap.timeline({ delay: 0.05 });
 
       // Background icons with spiral animation
       if (backgroundIconsRef.current) {
@@ -39,8 +39,8 @@ export const DeliverySection = () => {
             opacity: 0.12,
             scale: 1,
             rotation: 720,
-            duration: 1.5,
-            stagger: 0.3,
+            duration: 1,
+            stagger: 0.18,
             ease: "power2.out",
           },
           0
@@ -49,10 +49,10 @@ export const DeliverySection = () => {
         // Continuous slow rotation
         gsap.to(icons, {
           rotation: "+=360",
-          duration: 25,
+          duration: 15,
           repeat: -1,
           ease: "none",
-          stagger: 3,
+          stagger: 2,
         });
       }
 
@@ -65,10 +65,10 @@ export const DeliverySection = () => {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.8,
+            duration: 0.5,
             ease: "back.out(1.7)",
           },
-          0.3
+          0.15
         );
       }
 
@@ -82,11 +82,11 @@ export const DeliverySection = () => {
             scale: 1,
             y: 0,
             rotation: 0,
-            duration: 0.8,
-            stagger: 0.05,
+            duration: 0.5,
+            stagger: 0.03,
             ease: "back.out(2)",
           },
-          0.6
+          0.3
         );
       }
 
@@ -103,10 +103,10 @@ export const DeliverySection = () => {
           {
             opacity: 1,
             rotationY: 0,
-            duration: 1.2,
+            duration: 0.7,
             ease: "power2.out",
           },
-          1.0
+          0.6
         );
       }
 
@@ -121,21 +121,21 @@ export const DeliverySection = () => {
               scale: 1,
               opacity: 1,
               filter: "blur(0px)",
-              duration: 0.8,
-              delay: index * 0.4,
+              duration: 0.5,
+              delay: index * 0.22,
               ease: "elastic.out(1, 0.3)",
             }
           );
 
           // Magnetic hover effect
           marker.addEventListener("mouseenter", () => {
-            gsap.to(marker, { scale: 1.2, duration: 0.3, ease: "power2.out" });
+            gsap.to(marker, { scale: 1.2, duration: 0.2, ease: "power2.out" });
           });
           marker.addEventListener("mouseleave", () => {
-            gsap.to(marker, { scale: 1, duration: 0.3, ease: "power2.out" });
+            gsap.to(marker, { scale: 1, duration: 0.2, ease: "power2.out" });
           });
         });
-      }, 1800);
+      }, 1000);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -158,9 +158,9 @@ export const DeliverySection = () => {
     >
       {/* Subtle Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-emerald-500/3 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-[32rem] sm:h-[32rem] bg-green-500/3 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/8 to-transparent"></div>
+        <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-purple-500/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-[32rem] sm:h-[32rem] bg-violet-500/3 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-purple-500/8 to-transparent"></div>
       </div>
 
       {/* Floating Background Icons - Reduced opacity */}
@@ -168,12 +168,12 @@ export const DeliverySection = () => {
         ref={backgroundIconsRef}
         className="absolute inset-0 pointer-events-none hidden md:block"
       >
-        <MapPin className="bg-icon absolute top-20 left-16 w-7 h-7 text-emerald-400/8" />
-        <Truck className="bg-icon absolute top-32 right-20 w-8 h-8 text-green-400/8" />
-        <Package className="bg-icon absolute bottom-28 left-12 w-7 h-7 text-emerald-400/8" />
-        <Navigation className="bg-icon absolute bottom-20 right-16 w-7 h-7 text-green-400/8" />
-        <CheckCircle className="bg-icon absolute top-1/2 right-8 w-6 h-6 text-green-400/6" />
-        <Clock className="bg-icon absolute top-1/2 left-8 w-6 h-6 text-emerald-400/6" />
+        <MapPin className="bg-icon absolute top-20 left-16 w-7 h-7 text-purple-400/8" />
+        <Truck className="bg-icon absolute top-32 right-20 w-8 h-8 text-violet-400/8" />
+        <Package className="bg-icon absolute bottom-28 left-12 w-7 h-7 text-purple-400/8" />
+        <Navigation className="bg-icon absolute bottom-20 right-16 w-7 h-7 text-violet-400/8" />
+        <CheckCircle className="bg-icon absolute top-1/2 right-8 w-6 h-6 text-violet-400/6" />
+        <Clock className="bg-icon absolute top-1/2 left-8 w-6 h-6 text-purple-400/6" />
       </div>
 
       {/* Main Content */}
@@ -184,7 +184,7 @@ export const DeliverySection = () => {
             {/* Badge */}
             <div
               ref={badgeRef}
-              className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-emerald-500/15 text-emerald-300 text-sm sm:text-base font-medium border border-emerald-500/25 backdrop-blur-sm"
+              className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-purple-500/15 text-purple-300 text-sm sm:text-base font-medium border border-purple-500/25 backdrop-blur-sm"
             >
               <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
               Smart Product Locator
@@ -195,10 +195,10 @@ export const DeliverySection = () => {
               ref={headingRef}
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
             >
-              <span className="text-green-400">{splitText("Product")}</span>
+              <span className="text-purple-400">{splitText("Product")}</span>
               <span className="text-white">{splitText(" Locator")}</span>
               <br />
-              {/* <span className="bg-gradient-to-r from-emerald-400 via-green-400 to-teal-400 bg-clip-text text-transparent">
+              {/* <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
                 {splitText("Across All Stores")}
               </span> */}
             </h2>
@@ -217,7 +217,7 @@ export const DeliverySection = () => {
           >
             {/* Header Badge */}
             <div className="bg-white rounded-full px-5 py-3 mb-6 shadow-2xl flex items-center justify-center mx-auto w-fit">
-              <MapPin className="w-5 h-5 text-emerald-600 mr-3" />
+              <MapPin className="w-5 h-5 text-purple-600 mr-3" />
               <span className="text-gray-800 font-bold text-base">
                 PRODUCT LOCATOR
               </span>
@@ -226,7 +226,7 @@ export const DeliverySection = () => {
             {/* Large Map Container */}
             <div className="relative bg-white rounded-3xl p-2 sm:p-3 shadow-2xl">
               {/* Map Background - Much larger */}
-              <div className="relative h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 via-gray-100 to-green-100">
+              <div className="relative h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 via-gray-100 to-purple-100">
                 {/* Map Roads/Streets */}
                 <div className="absolute inset-0">
                   {/* Main Highway */}
@@ -247,55 +247,55 @@ export const DeliverySection = () => {
                 </div>
 
                 {/* Geographical Areas */}
-                <div className="absolute top-6 right-6 w-20 h-20 sm:w-32 sm:h-32 bg-green-200 rounded-2xl opacity-70 shadow-lg"></div>
+                <div className="absolute top-6 right-6 w-20 h-20 sm:w-32 sm:h-32 bg-purple-200 rounded-2xl opacity-70 shadow-lg"></div>
                 <div className="absolute bottom-6 left-6 w-28 h-20 sm:w-40 sm:h-28 bg-blue-200 rounded-2xl opacity-70 shadow-lg"></div>
-                <div className="absolute top-16 left-16 w-18 h-28 sm:w-28 sm:h-40 bg-green-100 rounded-2xl opacity-60 shadow-lg"></div>
+                <div className="absolute top-16 left-16 w-18 h-28 sm:w-28 sm:h-40 bg-violet-100 rounded-2xl opacity-60 shadow-lg"></div>
                 <div className="absolute bottom-16 right-16 w-24 h-24 sm:w-36 sm:h-36 bg-blue-100 rounded-2xl opacity-60 shadow-lg"></div>
-                <div className="absolute top-1/3 right-1/3 w-16 h-16 sm:w-24 sm:h-24 bg-emerald-100 rounded-xl opacity-50 shadow-md"></div>
+                <div className="absolute top-1/3 right-1/3 w-16 h-16 sm:w-24 sm:h-24 bg-purple-100 rounded-xl opacity-50 shadow-md"></div>
 
                 {/* Enhanced Store Markers */}
                 <div className="map-marker absolute top-12 left-20 sm:top-16 sm:left-28 flex flex-col items-center cursor-pointer">
                   <div className="relative">
-                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xl border-3 border-white">
+                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-purple-600 rounded-full flex items-center justify-center shadow-2xl border-3 border-white">
                       <AlertTriangle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 hidden sm:block">
-                      <div className="bg-emerald-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-xl font-medium">
+                      <div className="bg-purple-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-xl font-medium">
                         LOW INVENTORY
                       </div>
-                      <div className="w-3 h-3 bg-emerald-600 transform rotate-45 mx-auto -mt-1.5"></div>
+                      <div className="w-3 h-3 bg-purple-600 transform rotate-45 mx-auto -mt-1.5"></div>
                     </div>
                   </div>
                 </div>
 
                 <div className="map-marker absolute bottom-20 left-16 sm:bottom-28 sm:left-24 flex flex-col items-center cursor-pointer">
                   <div className="relative">
-                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xl border-3 border-white">
+                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-purple-600 rounded-full flex items-center justify-center shadow-2xl border-3 border-white">
                       <CheckCircle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                     </div>
                     <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 hidden sm:block">
-                      <div className="bg-emerald-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-xl font-medium">
+                      <div className="bg-purple-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-xl font-medium">
                         IN STOCK
                       </div>
-                      <div className="w-3 h-3 bg-emerald-600 transform rotate-45 mx-auto -mt-1.5"></div>
+                      <div className="w-3 h-3 bg-purple-600 transform rotate-45 mx-auto -mt-1.5"></div>
                     </div>
                   </div>
                 </div>
 
                 <div className="map-marker absolute top-24 right-20 sm:top-32 sm:right-28 cursor-pointer">
-                  <div className="w-7 h-7 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center shadow-xl border-3 border-white">
+                  <div className="w-7 h-7 sm:w-10 sm:h-10 bg-purple-600 rounded-full flex items-center justify-center shadow-xl border-3 border-white">
                     <Package className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
                   </div>
                 </div>
 
                 <div className="map-marker absolute bottom-24 right-24 sm:bottom-32 sm:right-32 cursor-pointer">
-                  <div className="w-7 h-7 sm:w-10 sm:h-10 bg-teal-500 rounded-full flex items-center justify-center shadow-xl border-3 border-white">
+                  <div className="w-7 h-7 sm:w-10 sm:h-10 bg-fuchsia-500 rounded-full flex items-center justify-center shadow-xl border-3 border-white">
                     <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full"></div>
                   </div>
                 </div>
 
                 <div className="map-marker absolute top-1/2 left-1/3 cursor-pointer">
-                  <div className="w-6 h-6 sm:w-9 sm:h-9 bg-green-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                  <div className="w-6 h-6 sm:w-9 sm:h-9 bg-violet-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
                     <Truck className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                   </div>
                 </div>
@@ -308,11 +308,11 @@ export const DeliverySection = () => {
 
                 {/* Enhanced Ripple Effects */}
                 <div className="absolute bottom-20 left-16 sm:bottom-28 sm:left-24">
-                  <div className="w-8 h-8 sm:w-12 sm:h-12 border-2 border-emerald-400 rounded-full animate-ping opacity-60"></div>
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 border-2 border-purple-400 rounded-full animate-ping opacity-60"></div>
                 </div>
                 <div className="absolute top-12 left-20 sm:top-16 sm:left-28">
                   <div
-                    className="w-8 h-8 sm:w-12 sm:h-12 border-2 border-emerald-400 rounded-full animate-ping opacity-60"
+                    className="w-8 h-8 sm:w-12 sm:h-12 border-2 border-purple-400 rounded-full animate-ping opacity-60"
                     style={{ animationDelay: "0.5s" }}
                   ></div>
                 </div>
@@ -329,17 +329,17 @@ export const DeliverySection = () => {
                     >
                       <stop
                         offset="0%"
-                        stopColor="rgb(52, 211, 153)"
+                        stopColor="rgb(147, 51, 234)"
                         stopOpacity="0.4"
                       />
                       <stop
                         offset="50%"
-                        stopColor="rgb(20, 184, 166)"
+                        stopColor="rgb(124, 58, 237)"
                         stopOpacity="0.2"
                       />
                       <stop
                         offset="100%"
-                        stopColor="rgb(52, 211, 153)"
+                        stopColor="rgb(147, 51, 234)"
                         stopOpacity="0.1"
                       />
                     </linearGradient>
@@ -373,9 +373,9 @@ export const DeliverySection = () => {
                 </svg>
 
                 {/* Moving delivery indicators */}
-                <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-emerald-500 rounded-full animate-bounce opacity-80"></div>
+                <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-purple-500 rounded-full animate-bounce opacity-80"></div>
                 <div
-                  className="absolute top-1/3 right-1/3 w-2 h-2 bg-green-500 rounded-full animate-bounce opacity-70"
+                  className="absolute top-1/3 right-1/3 w-2 h-2 bg-violet-500 rounded-full animate-bounce opacity-70"
                   style={{ animationDelay: "0.5s" }}
                 ></div>
               </div>
@@ -384,15 +384,15 @@ export const DeliverySection = () => {
             {/* Simple bottom info */}
             <div className="mt-6 flex justify-center items-center space-x-8 text-gray-400 text-sm">
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
                 <span>Live Tracking</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-violet-500 rounded-full"></div>
                 <span>Real-time Updates</span>
               </div>
               <div className=" items-center space-x-2 hidden sm:flex">
-                <div className="w-3 h-3 bg-teal-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-fuchsia-500 rounded-full"></div>
                 <span>Multi-store Search</span>
               </div>
             </div>

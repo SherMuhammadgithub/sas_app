@@ -39,14 +39,14 @@ export const HeroSection = () => {
     );
 
     // Reduced delay - text animation starts much sooner
-    const textTl = gsap.timeline({ delay: 0.5 });
+    const textTl = gsap.timeline({ delay: 0.3 });
 
-    // Staggered text animations
+    // Staggered text animations (faster durations)
     textTl
       .to(badgeRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.6,
+        duration: 0.35,
         ease: "power2.out",
       })
       .to(
@@ -54,79 +54,79 @@ export const HeroSection = () => {
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.45,
           ease: "power2.out",
         },
-        "-=0.4"
+        "-=0.22"
       )
       .to(
         subtitleRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.35,
           ease: "power2.out",
         },
-        "-=0.4"
+        "-=0.22"
       )
       .to(
         infoRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.35,
           ease: "power2.out",
         },
-        "-=0.3"
+        "-=0.18"
       )
       .to(
         buttonsRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.35,
           ease: "power2.out",
         },
-        "-=0.3"
+        "-=0.18"
       )
       .to(
         trustRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.35,
           ease: "power2.out",
         },
-        "-=0.3"
+        "-=0.18"
       )
       .to(
         scrollRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.35,
           ease: "power2.out",
         },
-        "-=0.2"
+        "-=0.12"
       );
 
-    // Continuous scroll indicator animation (starts sooner)
+    // Continuous scroll indicator animation (faster)
     gsap.to(scrollRef.current, {
       y: 8,
-      duration: 2,
+      duration: 1.2,
       repeat: -1,
       yoyo: true,
       ease: "power2.inOut",
-      delay: 2,
+      delay: 1.2,
     });
 
     gsap.to(scrollDotRef.current, {
       y: 10,
-      duration: 2,
+      duration: 1.2,
       repeat: -1,
       yoyo: true,
       ease: "power2.inOut",
-      delay: 2,
+      delay: 1.2,
     });
   }, []);
 
