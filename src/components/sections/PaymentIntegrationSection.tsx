@@ -2,14 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import {
-  CreditCard,
-  Smartphone,
-  Shield,
-  Zap,
-  Clock,
-  TrendingUp,
-} from "lucide-react";
+import { CreditCard, Smartphone, Shield, Zap } from "lucide-react";
 import Image from "next/image";
 
 /**

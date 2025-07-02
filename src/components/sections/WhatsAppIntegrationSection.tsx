@@ -6,16 +6,11 @@ import {
   MessageCircle,
   Smartphone,
   Users,
-  Clock,
-  ShoppingCart,
-  Headphones,
   Zap,
-  Star,
   Send,
   Phone,
   Video,
 } from "lucide-react";
-import Image from "next/image";
 
 /**
  * WhatsApp Integration Section Component
@@ -35,12 +30,12 @@ export const WhatsAppIntegrationSection = () => {
   // Chat messages data
   const chatMessages = [
     {
-      message: "Hello, I'd like to order a cake for Saturday",
+      message: "Hello, I&apos;d like to order a cake for Saturday",
       time: "11:42",
       isCustomer: true,
     },
     {
-      message: "Welcome to Sandra's Cakes! 🧁",
+      message: "Welcome to Sandra&apos;s Cakes! 🧁",
       time: "11:42",
       isCustomer: false,
     },
@@ -361,7 +356,7 @@ export const WhatsAppIntegrationSection = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-xs sm:text-sm">
-                          Sandra's Cakes
+                          Sandra&apos;s Cakes
                         </h3>
                         <p className="text-xs text-green-200 hidden sm:block">
                           online

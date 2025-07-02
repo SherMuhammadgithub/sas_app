@@ -7,11 +7,8 @@ import {
   Truck,
   Clock,
   Navigation,
-  MessageCircle,
   CheckCircle,
   Package,
-  Zap,
-  Users,
   AlertTriangle,
 } from "lucide-react";
 
