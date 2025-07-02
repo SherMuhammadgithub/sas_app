@@ -401,7 +401,7 @@ export const WhatsAppIntegrationSection = () => {
               <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
                 Transform customer communication with WhatsApp Business
                 integration. Handle orders, inquiries, and support directly
-                through the world's most popular messaging platform.
+                through the world&apos;s most popular messaging platform.
               </p>
 
               {/* Mobile-specific features list */}
@@ -504,7 +504,7 @@ export const WhatsAppIntegrationSection = () => {
                       </div>
                       <div className="min-w-0 flex-1">
                         <h3 className="font-semibold text-xs sm:text-sm truncate">
-                          Sandra's Cakes
+                          world&apos;s Cakes
                         </h3>
                         <p className="text-xs text-blue-200 flex items-center">
                           <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full mr-1"></span>
