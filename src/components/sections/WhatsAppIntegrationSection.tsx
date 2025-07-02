@@ -39,7 +39,7 @@ export const WhatsAppIntegrationSection = () => {
       isCustomer: true,
     },
     {
-      message: "Welcome to Sandra's Cakes! 🧁",
+      message: "Welcome to Sandra's Cakes!",
       time: "11:42",
       isCustomer: false,
     },
@@ -586,7 +586,7 @@ export const WhatsAppIntegrationSection = () => {
                     <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400" />
                     <div>
                       <p className="text-xs text-gray-400">Response</p>
-                      <p className="text-sm font-bold text-white">&lt; 1min</p>
+                      <p className="text-sm font-bold text-white">1min</p>
                     </div>
                   </div>
                 </div>
