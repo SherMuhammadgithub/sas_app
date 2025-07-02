@@ -39,7 +39,7 @@ export const WhatsAppIntegrationSection = () => {
       isCustomer: true,
     },
     {
-      message: "Welcome to Sandra's Cakes! 🧁",
+      message: "Welcome to Sandra&apos;s Cakes!",
       time: "11:42",
       isCustomer: false,
     },
@@ -382,7 +382,7 @@ export const WhatsAppIntegrationSection = () => {
               <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
                 Transform customer communication with WhatsApp Business
                 integration. Handle orders, inquiries, and support directly
-                through the world's most popular messaging platform.
+                through the world&apos;s most popular messaging platform.
               </p>
             </div>
 
@@ -447,7 +447,7 @@ export const WhatsAppIntegrationSection = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-sm sm:text-sm">
-                          Sandra's Cakes
+                          Sandra&apos;s Cakes
                         </h3>
                         <p className="text-xs text-blue-200 flex items-center">
                           <span className="w-2 h-2 bg-green-400 rounded-full mr-1"></span>
