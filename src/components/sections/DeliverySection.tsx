@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import {
   MapPin,
   Truck,
@@ -9,436 +9,397 @@ import {
   Navigation,
   MessageCircle,
   CheckCircle,
+  Package,
+  Zap,
+  Users,
+  AlertTriangle,
 } from "lucide-react";
 
 /**
  * Delivery and Customer Interaction Section Component
- * Features interactive map SVG animation with delivery tracking and customer interaction
+ * Features interactive map animation with delivery tracking and customer interaction
  */
 export const DeliverySection = () => {
-  const { ref } = useScrollAnimation(0.3);
+  const sectionRef = useRef<HTMLElement>(null);
+  const backgroundIconsRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
-  // Decorative icons - hidden on small screens
-  const decorativeIcons = [
-    {
-      Icon: MapPin,
-      position: "top-4 left-4 md:top-8 md:left-8",
-      delay: 0.1,
-    },
-    {
-      Icon: Truck,
-      position: "top-4 right-4 md:top-8 md:right-8",
-      delay: 0.2,
-    },
-    {
-      Icon: Clock,
-      position: "bottom-4 left-4 md:bottom-8 md:left-8",
-      delay: 0.3,
-    },
-    {
-      Icon: CheckCircle,
-      position: "bottom-4 right-4 md:bottom-8 md:right-8",
-      delay: 0.4,
-    },
-  ];
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.1 });
 
-  // Delivery points for animation - simplified for mobile
-  const deliveryPoints = [
-    { id: 1, x: 120, y: 80, status: "delivered", delay: 0.5 },
-    { id: 2, x: 200, y: 150, status: "in-transit", delay: 1.0 },
-    { id: 3, x: 280, y: 200, status: "delivered", delay: 1.5 },
-  ];
+      // Background icons with spiral animation
+      if (backgroundIconsRef.current) {
+        const icons = backgroundIconsRef.current.querySelectorAll(".bg-icon");
+        gsap.set(icons, { opacity: 0, scale: 0, rotation: 0 });
 
-  // Moving delivery vehicles - simplified
-  const vehicles = [
-    {
-      id: 1,
-      path: "M120,80 Q200,120 280,200",
-      delay: 1,
-      duration: 8,
-    },
-  ];
+        // Spiral entrance animation
+        tl.to(
+          icons,
+          {
+            opacity: 0.12,
+            scale: 1,
+            rotation: 720,
+            duration: 1.5,
+            stagger: 0.3,
+            ease: "power2.out",
+          },
+          0
+        );
 
-  // Features list
-  const features = [
-    {
-      title: "Real-time Tracking",
-      description:
-        "Live GPS tracking with instant updates for customers and drivers",
-      icon: Navigation,
-    },
-    {
-      title: "Smart Routing",
-      description: "AI-powered route optimization to reduce delivery time",
-      icon: MapPin,
-    },
-    {
-      title: "Customer Communication",
-      description: "Automated notifications and two-way communication",
-      icon: MessageCircle,
-    },
-  ];
+        // Continuous slow rotation
+        gsap.to(icons, {
+          rotation: "+=360",
+          duration: 25,
+          repeat: -1,
+          ease: "none",
+          stagger: 3,
+        });
+      }
+
+      // Badge with slide effect
+      if (badgeRef.current) {
+        gsap.set(badgeRef.current, { opacity: 0, y: -30, scale: 0.8 });
+        tl.to(
+          badgeRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+          },
+          0.3
+        );
+      }
+
+      // Heading with morphing effect - SIMPLIFIED
+      if (headingRef.current) {
+        const chars = headingRef.current.querySelectorAll(".char");
+        gsap.set(chars, { scale: 0, y: 50, rotation: 180 });
+        tl.to(
+          chars,
+          {
+            scale: 1,
+            y: 0,
+            rotation: 0,
+            duration: 0.8,
+            stagger: 0.05,
+            ease: "back.out(2)",
+          },
+          0.6
+        );
+      }
+
+      // Map container with 3D flip animation
+      if (mapContainerRef.current) {
+        gsap.set(mapContainerRef.current, {
+          opacity: 0,
+          rotationY: -90,
+          transformPerspective: 1000,
+          transformOrigin: "center center",
+        });
+        tl.to(
+          mapContainerRef.current,
+          {
+            opacity: 1,
+            rotationY: 0,
+            duration: 1.2,
+            ease: "power2.out",
+          },
+          1.0
+        );
+      }
+
+      // Map markers with magnetic effect
+      setTimeout(() => {
+        const markers = document.querySelectorAll(".map-marker");
+        markers.forEach((marker, index) => {
+          gsap.fromTo(
+            marker,
+            { scale: 0, opacity: 0, filter: "blur(10px)" },
+            {
+              scale: 1,
+              opacity: 1,
+              filter: "blur(0px)",
+              duration: 0.8,
+              delay: index * 0.4,
+              ease: "elastic.out(1, 0.3)",
+            }
+          );
+
+          // Magnetic hover effect
+          marker.addEventListener("mouseenter", () => {
+            gsap.to(marker, { scale: 1.2, duration: 0.3, ease: "power2.out" });
+          });
+          marker.addEventListener("mouseleave", () => {
+            gsap.to(marker, { scale: 1, duration: 0.3, ease: "power2.out" });
+          });
+        });
+      }, 1800);
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Split text into characters for animation - SIMPLIFIED
+  const splitText = (text: string) => {
+    return text.split("").map((char, index) => (
+      <span key={index} className="char inline-block">
+        {char === " " ? "\u00A0" : char}
+      </span>
+    ));
+  };
 
   return (
     <section
       id="delivery"
-      ref={ref}
-      className="w-full h-full flex items-center justify-center relative px-2 sm:px-4"
+      ref={sectionRef}
+      className="w-full h-screen flex items-center justify-center relative px-6 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-hidden"
     >
-      {/* Background Icons - Hidden on mobile */}
-      <div className="absolute inset-0 pointer-events-none hidden md:block">
-        {decorativeIcons.map(({ Icon, position, delay }, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 0.2, scale: 1 }}
-            transition={{ duration: 0.8, delay }}
-            className={`absolute ${position} text-green-400`}
-          >
-            <Icon className="w-6 h-6 md:w-8 md:h-8" />
-          </motion.div>
-        ))}
+      {/* Subtle Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-emerald-500/3 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-[32rem] sm:h-[32rem] bg-green-500/3 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/8 to-transparent"></div>
       </div>
 
-      {/* Main Content Container */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 items-center min-h-[85vh] sm:min-h-[80vh]">
-          {/* Content Side - Left */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-3 sm:space-y-4 lg:space-y-6 order-2 lg:order-1"
-          >
+      {/* Floating Background Icons - Reduced opacity */}
+      <div
+        ref={backgroundIconsRef}
+        className="absolute inset-0 pointer-events-none hidden md:block"
+      >
+        <MapPin className="bg-icon absolute top-20 left-16 w-7 h-7 text-emerald-400/8" />
+        <Truck className="bg-icon absolute top-32 right-20 w-8 h-8 text-green-400/8" />
+        <Package className="bg-icon absolute bottom-28 left-12 w-7 h-7 text-emerald-400/8" />
+        <Navigation className="bg-icon absolute bottom-20 right-16 w-7 h-7 text-green-400/8" />
+        <CheckCircle className="bg-icon absolute top-1/2 right-8 w-6 h-6 text-green-400/6" />
+        <Clock className="bg-icon absolute top-1/2 left-8 w-6 h-6 text-emerald-400/6" />
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto text-center flex flex-col justify-center h-full">
+        <div className="space-y-6 sm:space-y-8">
+          {/* Header Section */}
+          <div className="space-y-3 sm:space-y-5">
             {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-green-500/20 text-green-300 text-xs sm:text-sm font-medium border border-green-500/30"
+            <div
+              ref={badgeRef}
+              className="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-emerald-500/15 text-emerald-300 text-sm sm:text-base font-medium border border-emerald-500/25 backdrop-blur-sm"
             >
-              <Truck className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              Delivery & Tracking
-            </motion.div>
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
+              Smart Product Locator
+            </div>
 
-            {/* Main Heading */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight"
+            {/* Main Heading - SIMPLIFIED */}
+            <h2
+              ref={headingRef}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
             >
-              Track Every{" "}
-              <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
-                Delivery
-              </span>
-            </motion.h2>
+              <span className="text-green-400">{splitText("Product")}</span>
+              <span className="text-white">{splitText(" Locator")}</span>
+              <br />
+              {/* <span className="bg-gradient-to-r from-emerald-400 via-green-400 to-teal-400 bg-clip-text text-transparent">
+                {splitText("Across All Stores")}
+              </span> */}
+            </h2>
 
-            {/* Description - Hidden on very small screens */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed hidden sm:block"
-            >
-              Track deliveries in real-time with our driver app, ensuring every
-              shipment is on time with instant updates.
-            </motion.p>
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Real-time inventory tracking with intelligent location mapping for
+              instant product discovery
+            </p>
+          </div>
 
-            {/* Features List */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="space-y-2 sm:space-y-3 lg:space-y-4"
-            >
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
-                  className="flex items-start space-x-2 sm:space-x-3"
-                >
-                  <div className="flex-shrink-0 p-1.5 sm:p-2 bg-green-500/20 rounded-lg border border-green-500/30">
-                    <feature.icon className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white text-xs sm:text-sm lg:text-base">
-                      {feature.title}
-                    </h3>
-                    {/* Description hidden on small screens */}
-                    <p className="text-gray-300 text-xs lg:text-sm hidden sm:block">
-                      {feature.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
-              className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4"
-            >
-              <button className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-xs sm:text-sm lg:text-base shadow-lg shadow-green-500/25">
-                Start Tracking
-              </button>
-              {/* Second button hidden on very small screens */}
-              <button className="px-4 py-2 sm:px-6 sm:py-3 border-2 border-green-400 text-green-400 font-semibold rounded-lg hover:bg-green-500/10 transition-all duration-300 text-xs sm:text-sm lg:text-base hidden sm:block">
-                View Demo
-              </button>
-            </motion.div>
-          </motion.div>
-
-          {/* Interactive Map - Right */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative order-1 lg:order-2"
+          {/* Large Map Interface */}
+          <div
+            ref={mapContainerRef}
+            className="relative w-full max-w-3xl mx-auto"
           >
-            {/* Map Container - Responsive sizing */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="relative bg-slate-800/50 rounded-lg sm:rounded-xl border border-gray-700/50 p-2 sm:p-4 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full mx-auto"
-            >
-              {/* Interactive Map SVG - Responsive */}
-              <motion.svg
-                width="100%"
-                height="200"
-                viewBox="0 0 400 200"
-                className="sm:h-64 md:h-80"
-              >
-                <defs>
-                  <linearGradient
-                    id="deliveryGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      stopColor="rgb(34, 197, 94)"
-                      stopOpacity="0.8"
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="rgb(22, 163, 74)"
-                      stopOpacity="0.6"
-                    />
-                  </linearGradient>
-                  <linearGradient
-                    id="transitGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      stopColor="rgb(59, 130, 246)"
-                      stopOpacity="0.8"
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="rgb(37, 99, 235)"
-                      stopOpacity="0.6"
-                    />
-                  </linearGradient>
-                </defs>
+            {/* Header Badge */}
+            <div className="bg-white rounded-full px-5 py-3 mb-6 shadow-2xl flex items-center justify-center mx-auto w-fit">
+              <MapPin className="w-5 h-5 text-emerald-600 mr-3" />
+              <span className="text-gray-800 font-bold text-base">
+                PRODUCT LOCATOR
+              </span>
+            </div>
 
-                {/* City Roads - Simplified */}
-                <motion.g
-                  initial={{ opacity: 0, pathLength: 0 }}
-                  animate={{ opacity: 0.4, pathLength: 1 }}
-                  transition={{ duration: 2, delay: 0.5 }}
-                >
-                  <path
-                    d="M50,50 Q150,40 250,50 T350,60"
-                    fill="none"
-                    stroke="rgb(75, 85, 99)"
-                    strokeWidth="2"
-                    strokeDasharray="3,3"
-                  />
-                  <path
-                    d="M50,100 L350,100"
-                    fill="none"
-                    stroke="rgb(75, 85, 99)"
-                    strokeWidth="3"
-                  />
-                  <path
-                    d="M50,150 Q150,140 250,150 T350,160"
-                    fill="none"
-                    stroke="rgb(75, 85, 99)"
-                    strokeWidth="2"
-                    strokeDasharray="3,3"
-                  />
-                </motion.g>
+            {/* Large Map Container */}
+            <div className="relative bg-white rounded-3xl p-2 sm:p-3 shadow-2xl">
+              {/* Map Background - Much larger */}
+              <div className="relative h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 via-gray-100 to-green-100">
+                {/* Map Roads/Streets */}
+                <div className="absolute inset-0">
+                  {/* Main Highway */}
+                  <div className="absolute top-1/2 left-0 right-0 h-3 sm:h-4 bg-yellow-300 transform -translate-y-1/2 shadow-md"></div>
+                  <div className="absolute top-1/2 left-1/2 w-3 sm:w-4 bottom-0 bg-yellow-300 transform -translate-x-1/2 shadow-md"></div>
 
-                {/* Delivery Route */}
-                {vehicles.map((vehicle) => (
-                  <motion.path
-                    key={vehicle.id}
-                    d={vehicle.path}
-                    fill="none"
-                    stroke="url(#deliveryGradient)"
-                    strokeWidth="3"
-                    strokeDasharray="8,4"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, delay: vehicle.delay }}
-                  />
-                ))}
+                  {/* Secondary Roads */}
+                  <div className="absolute top-1/4 left-0 right-0 h-2 sm:h-3 bg-gray-300 shadow-sm"></div>
+                  <div className="absolute top-3/4 left-0 right-0 h-2 sm:h-3 bg-gray-300 shadow-sm"></div>
+                  <div className="absolute top-0 left-1/4 w-2 sm:w-3 bottom-0 bg-gray-300 shadow-sm"></div>
+                  <div className="absolute top-0 right-1/4 w-2 sm:w-3 bottom-0 bg-gray-300 shadow-sm"></div>
 
-                {/* Delivery Points */}
-                {deliveryPoints.map((point) => (
-                  <motion.g key={point.id}>
-                    <motion.circle
-                      cx={point.x}
-                      cy={point.y}
-                      r="8"
-                      fill={
-                        point.status === "delivered"
-                          ? "url(#deliveryGradient)"
-                          : "url(#transitGradient)"
-                      }
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, delay: point.delay }}
-                    />
+                  {/* Minor Roads */}
+                  <div className="absolute top-1/8 left-1/8 right-1/8 h-1 sm:h-1.5 bg-gray-200 opacity-80"></div>
+                  <div className="absolute bottom-1/8 left-1/8 right-1/8 h-1 sm:h-1.5 bg-gray-200 opacity-80"></div>
+                  <div className="absolute top-0 left-1/8 w-1 sm:w-1.5 bottom-0 bg-gray-200 opacity-80"></div>
+                  <div className="absolute top-0 right-1/8 w-1 sm:w-1.5 bottom-0 bg-gray-200 opacity-80"></div>
+                </div>
 
-                    {/* Status Icon */}
-                    <motion.g
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, delay: point.delay + 0.2 }}
+                {/* Geographical Areas */}
+                <div className="absolute top-6 right-6 w-20 h-20 sm:w-32 sm:h-32 bg-green-200 rounded-2xl opacity-70 shadow-lg"></div>
+                <div className="absolute bottom-6 left-6 w-28 h-20 sm:w-40 sm:h-28 bg-blue-200 rounded-2xl opacity-70 shadow-lg"></div>
+                <div className="absolute top-16 left-16 w-18 h-28 sm:w-28 sm:h-40 bg-green-100 rounded-2xl opacity-60 shadow-lg"></div>
+                <div className="absolute bottom-16 right-16 w-24 h-24 sm:w-36 sm:h-36 bg-blue-100 rounded-2xl opacity-60 shadow-lg"></div>
+                <div className="absolute top-1/3 right-1/3 w-16 h-16 sm:w-24 sm:h-24 bg-emerald-100 rounded-xl opacity-50 shadow-md"></div>
+
+                {/* Enhanced Store Markers */}
+                <div className="map-marker absolute top-12 left-20 sm:top-16 sm:left-28 flex flex-col items-center cursor-pointer">
+                  <div className="relative">
+                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xl border-3 border-white">
+                      <AlertTriangle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 hidden sm:block">
+                      <div className="bg-emerald-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-xl font-medium">
+                        LOW INVENTORY
+                      </div>
+                      <div className="w-3 h-3 bg-emerald-600 transform rotate-45 mx-auto -mt-1.5"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="map-marker absolute bottom-20 left-16 sm:bottom-28 sm:left-24 flex flex-col items-center cursor-pointer">
+                  <div className="relative">
+                    <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xl border-3 border-white">
+                      <CheckCircle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 hidden sm:block">
+                      <div className="bg-emerald-600 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-xl font-medium">
+                        IN STOCK
+                      </div>
+                      <div className="w-3 h-3 bg-emerald-600 transform rotate-45 mx-auto -mt-1.5"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="map-marker absolute top-24 right-20 sm:top-32 sm:right-28 cursor-pointer">
+                  <div className="w-7 h-7 sm:w-10 sm:h-10 bg-emerald-600 rounded-full flex items-center justify-center shadow-xl border-3 border-white">
+                    <Package className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
+                  </div>
+                </div>
+
+                <div className="map-marker absolute bottom-24 right-24 sm:bottom-32 sm:right-32 cursor-pointer">
+                  <div className="w-7 h-7 sm:w-10 sm:h-10 bg-teal-500 rounded-full flex items-center justify-center shadow-xl border-3 border-white">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full"></div>
+                  </div>
+                </div>
+
+                <div className="map-marker absolute top-1/2 left-1/3 cursor-pointer">
+                  <div className="w-6 h-6 sm:w-9 sm:h-9 bg-green-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                    <Truck className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                  </div>
+                </div>
+
+                <div className="map-marker absolute top-1/3 right-1/2 cursor-pointer">
+                  <div className="w-6 h-6 sm:w-9 sm:h-9 bg-blue-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                    <Navigation className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                  </div>
+                </div>
+
+                {/* Enhanced Ripple Effects */}
+                <div className="absolute bottom-20 left-16 sm:bottom-28 sm:left-24">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 border-2 border-emerald-400 rounded-full animate-ping opacity-60"></div>
+                </div>
+                <div className="absolute top-12 left-20 sm:top-16 sm:left-28">
+                  <div
+                    className="w-8 h-8 sm:w-12 sm:h-12 border-2 border-emerald-400 rounded-full animate-ping opacity-60"
+                    style={{ animationDelay: "0.5s" }}
+                  ></div>
+                </div>
+
+                {/* Multiple Connecting Lines */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                  <defs>
+                    <linearGradient
+                      id="connectionGradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
                     >
-                      {point.status === "delivered" && (
-                        <path
-                          d={`M${point.x - 3},${point.y} L${point.x - 1},${
-                            point.y + 2
-                          } L${point.x + 3},${point.y - 2}`}
-                          fill="none"
-                          stroke="white"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      )}
-                      {point.status === "in-transit" && (
-                        <circle cx={point.x} cy={point.y} r="2" fill="white" />
-                      )}
-                    </motion.g>
-
-                    {/* Pulsing for active deliveries */}
-                    {point.status === "in-transit" && (
-                      <motion.circle
-                        cx={point.x}
-                        cy={point.y}
-                        r="8"
-                        fill="none"
-                        stroke="rgb(59, 130, 246)"
-                        strokeWidth="2"
-                        initial={{ scale: 1, opacity: 0.8 }}
-                        animate={{ scale: 2, opacity: 0 }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          delay: point.delay + 1,
-                        }}
+                      <stop
+                        offset="0%"
+                        stopColor="rgb(52, 211, 153)"
+                        stopOpacity="0.4"
                       />
-                    )}
-                  </motion.g>
-                ))}
-
-                {/* Moving Delivery Truck */}
-                <motion.g>
-                  <motion.rect
-                    width="12"
-                    height="8"
-                    fill="url(#deliveryGradient)"
-                    rx="2"
-                    initial={{ x: 120, y: 76 }}
-                    animate={{
-                      x: [120, 200, 280, 120],
-                      y: [76, 146, 196, 76],
-                    }}
-                    transition={{
-                      duration: 8,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1,
-                    }}
+                      <stop
+                        offset="50%"
+                        stopColor="rgb(20, 184, 166)"
+                        stopOpacity="0.2"
+                      />
+                      <stop
+                        offset="100%"
+                        stopColor="rgb(52, 211, 153)"
+                        stopOpacity="0.1"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M 80 48 Q 200 120 320 160"
+                    stroke="url(#connectionGradient)"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray="8,4"
+                    className="animate-pulse"
                   />
-                </motion.g>
-              </motion.svg>
+                  <path
+                    d="M 64 320 Q 200 240 320 128"
+                    stroke="url(#connectionGradient)"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray="8,4"
+                    className="animate-pulse"
+                    style={{ animationDelay: "1s" }}
+                  />
+                  <path
+                    d="M 160 96 Q 240 200 320 192"
+                    stroke="url(#connectionGradient)"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="6,3"
+                    className="animate-pulse"
+                    style={{ animationDelay: "1.5s" }}
+                  />
+                </svg>
 
-              {/* Live Stats - Hidden on very small screens */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 2 }}
-                className="mt-2 sm:mt-4 grid grid-cols-3 gap-2 text-center sm:grid"
-              >
-                <div className="bg-slate-800/70 rounded-lg p-2">
-                  <motion.p
-                    className="text-sm sm:text-lg font-bold text-green-400"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 2.5 }}
-                  >
-                    24
-                  </motion.p>
-                  <p className="text-xs text-gray-400">Active</p>
-                </div>
-                <div className="bg-slate-800/70 rounded-lg p-2">
-                  <motion.p
-                    className="text-sm sm:text-lg font-bold text-blue-400"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 3 }}
-                  >
-                    12min
-                  </motion.p>
-                  <p className="text-xs text-gray-400">Avg Time</p>
-                </div>
-                <div className="bg-slate-800/70 rounded-lg p-2">
-                  <motion.p
-                    className="text-sm sm:text-lg font-bold text-green-400"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 3.5 }}
-                  >
-                    98%
-                  </motion.p>
-                  <p className="text-xs text-gray-400">On Time</p>
-                </div>
-              </motion.div>
-            </motion.div>
+                {/* Moving delivery indicators */}
+                <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-emerald-500 rounded-full animate-bounce opacity-80"></div>
+                <div
+                  className="absolute top-1/3 right-1/3 w-2 h-2 bg-green-500 rounded-full animate-bounce opacity-70"
+                  style={{ animationDelay: "0.5s" }}
+                ></div>
+              </div>
+            </div>
 
-            {/* Feature Cards - Hidden on mobile */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="mt-4 grid grid-cols-2 gap-2 sm:gap-3 sm:grid"
-            >
-              <div className="bg-slate-800/50 border border-gray-700/50 rounded-lg p-2 sm:p-3 text-center">
-                <Navigation className="w-4 h-4 text-green-400 mx-auto mb-1" />
-                <p className="text-xs sm:text-sm font-bold text-white">
-                  GPS Live
-                </p>
-                <p className="text-xs text-gray-400">Tracking</p>
+            {/* Simple bottom info */}
+            <div className="mt-6 flex justify-center items-center space-x-8 text-gray-400 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                <span>Live Tracking</span>
               </div>
-              <div className="bg-slate-800/50 border border-gray-700/50 rounded-lg p-2 sm:p-3 text-center">
-                <CheckCircle className="w-4 h-4 text-green-400 mx-auto mb-1" />
-                <p className="text-xs sm:text-sm font-bold text-white">98.7%</p>
-                <p className="text-xs text-gray-400">Success</p>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span>Real-time Updates</span>
               </div>
-            </motion.div>
-          </motion.div>
+              <div className=" items-center space-x-2 hidden sm:flex">
+                <div className="w-3 h-3 bg-teal-500 rounded-full"></div>
+                <span>Multi-store Search</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

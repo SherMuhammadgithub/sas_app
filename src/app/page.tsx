@@ -7,8 +7,6 @@ import { PaymentIntegrationSection } from "@/components/sections/PaymentIntegrat
 import { WhatsAppIntegrationSection } from "@/components/sections/WhatsAppIntegrationSection";
 import { DeliverySection } from "@/components/sections/DeliverySection";
 import { CustomerPortalSection } from "@/components/sections/CustomerPortalSection";
-import { ReportingComplianceSection } from "@/components/sections/ReportingComplianceSection";
-import { AutomatedGatePassSection } from "@/components/sections/AutomatedGatePassSection";
 // import { FooterSection } from "@/components/sections/FooterSection";
 import { MorphingPortfolioContainer } from "@/components/transitions/MorphingPortfolioContainer";
 // import { FloatingNav } from "@/components/ui/FloatingNav"; // Commented out as requested
@@ -58,16 +56,6 @@ export default function Home() {
       id: "customer-portal",
       component: <CustomerPortalSection />,
       title: "Customer Portal",
-    },
-    {
-      id: "reporting-compliance",
-      component: <ReportingComplianceSection />,
-      title: "Reporting & Compliance",
-    },
-    {
-      id: "automated-gate-pass",
-      component: <AutomatedGatePassSection />,
-      title: "Automated Gate Pass",
     },
   ];
 

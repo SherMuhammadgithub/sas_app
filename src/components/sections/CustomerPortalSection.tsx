@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+
 import {
   User,
   ShoppingCart,
@@ -21,8 +21,6 @@ import {
  * Features customer self-service capabilities and mobile app integration
  */
 export const CustomerPortalSection = () => {
-  const { ref } = useScrollAnimation(0.3);
-
   // Decorative icons - hidden on small screens
   const decorativeIcons = [
     {
@@ -80,7 +78,6 @@ export const CustomerPortalSection = () => {
   return (
     <section
       id="customer-portal"
-      ref={ref}
       className="w-full h-full flex items-center justify-center relative px-2 sm:px-4"
     >
       {/* Background Icons - Hidden on mobile */}

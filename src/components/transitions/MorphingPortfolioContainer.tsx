@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
 interface Section {
@@ -13,11 +13,6 @@ interface MorphingPortfolioContainerProps {
   sections: Section[];
 }
 
-/**
- * Morphing Portfolio Container
- * Creates a smooth morphing effect between sections with colored dot patterns
- * Each section changes only the dot pattern color, keeping dark background
- */
 export const MorphingPortfolioContainer = ({
   sections,
 }: MorphingPortfolioContainerProps) => {
@@ -26,49 +21,24 @@ export const MorphingPortfolioContainer = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const lastScrollTime = useRef(0);
   const scrollDirection = useRef<"up" | "down">("down");
+  const touchStartY = useRef(0);
 
-  // Different themes for each section with more vibrant colors
-  // Different themes for each section - just dots
   const sectionThemes = [
-    {
-      // Section 0 - Hero (Green)
-      accentColor: "#10b981",
-      dotColor: "rgba(16, 185, 129, 0.6)",
-    },
-    {
-      // Section 1 - About (Light Green)
-      accentColor: "#22c55e",
-      dotColor: "rgba(34, 197, 94, 0.6)",
-    },
-    {
-      // Section 2 - Projects (Blue)
-      accentColor: "#3b82f6",
-      dotColor: "rgba(59, 130, 246, 0.6)",
-    },
-    {
-      // Section 3 - Skills (Indigo)
-      accentColor: "#6366f1",
-      dotColor: "rgba(99, 102, 241, 0.6)",
-    },
-    {
-      // Section 4 - Contact (Purple)
-      accentColor: "#9333ea",
-      dotColor: "rgba(147, 51, 234, 0.6)",
-    },
+    { accentColor: "#10b981", dotColor: "rgba(16, 185, 129, 0.6)" },
+    { accentColor: "#22c55e", dotColor: "rgba(34, 197, 94, 0.6)" },
+    { accentColor: "#3b82f6", dotColor: "rgba(59, 130, 246, 0.6)" },
+    { accentColor: "#6366f1", dotColor: "rgba(99, 102, 241, 0.6)" },
+    { accentColor: "#9333ea", dotColor: "rgba(147, 51, 234, 0.6)" },
   ];
 
-  // Get current theme
   const getCurrentTheme = () =>
     sectionThemes[currentSectionIndex] || sectionThemes[0];
 
-  // Generate enhanced dot pattern with lines and larger size
-  // Generate simple dot pattern - just dots, no lines
   const generateDotPattern = (dotColor: string) => {
     const dotSvg = `
       <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="simple-dots" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-            <!-- Just a simple dot -->
             <circle cx="30" cy="30" r="2" fill="${dotColor}"/>
           </pattern>
         </defs>
@@ -78,35 +48,64 @@ export const MorphingPortfolioContainer = ({
     return `data:image/svg+xml;base64,${btoa(dotSvg)}`;
   };
 
+  // Faster transition duration (500ms instead of 800ms)
+  const TRANSITION_DURATION = 0.5;
+
   useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.changedTouches[0].screenY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (isTransitioning) return;
+
+      const touchEndY = e.changedTouches[0].screenY;
+      const threshold = 50;
+      const now = Date.now();
+      const timeDiff = now - lastScrollTime.current;
+
+      if (timeDiff < TRANSITION_DURATION * 1000) return;
+
+      lastScrollTime.current = now;
+      setIsTransitioning(true);
+
+      if (touchStartY.current - touchEndY > threshold) {
+        scrollDirection.current = "down";
+        setCurrentSectionIndex((prev) =>
+          prev < sections.length - 1 ? prev + 1 : prev
+        );
+      } else if (touchEndY - touchStartY.current > threshold) {
+        scrollDirection.current = "up";
+        setCurrentSectionIndex((prev) => (prev > 0 ? prev - 1 : prev));
+      }
+
+      setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION * 1000);
+    };
+
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
 
       const now = Date.now();
       const timeDiff = now - lastScrollTime.current;
 
-      // Throttle scroll events to prevent rapid transitions
-      if (timeDiff < 800 || isTransitioning) return;
+      if (timeDiff < TRANSITION_DURATION * 1000 || isTransitioning) return;
 
       lastScrollTime.current = now;
       setIsTransitioning(true);
 
       if (e.deltaY > 0) {
-        // Scrolling down
         scrollDirection.current = "down";
         setCurrentSectionIndex((prev) =>
           prev < sections.length - 1 ? prev + 1 : prev
         );
       } else {
-        // Scrolling up
         scrollDirection.current = "up";
         setCurrentSectionIndex((prev) => (prev > 0 ? prev - 1 : prev));
       }
 
-      // Reset transition state after animation
       setTimeout(() => {
         setIsTransitioning(false);
-      }, 800);
+      }, TRANSITION_DURATION * 1000);
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -119,48 +118,64 @@ export const MorphingPortfolioContainer = ({
         setCurrentSectionIndex((prev) =>
           prev < sections.length - 1 ? prev + 1 : prev
         );
-        setTimeout(() => setIsTransitioning(false), 800);
+        setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION * 1000);
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setIsTransitioning(true);
         scrollDirection.current = "up";
         setCurrentSectionIndex((prev) => (prev > 0 ? prev - 1 : prev));
-        setTimeout(() => setIsTransitioning(false), 800);
+        setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION * 1000);
       }
     };
 
-    // Add event listeners
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
 
-    // Prevent default scrolling
     document.body.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
       document.body.style.overflow = "auto";
     };
   }, [sections.length, isTransitioning]);
 
-  const morphingVariants = {
+  // Enhanced morphing animations with overlapping transitions
+  const morphingVariants: Variants = {
     enter: (direction: "up" | "down") => ({
       opacity: 0,
-      scale: 0.8,
-      rotateX: direction === "down" ? 15 : -15,
-      y: direction === "down" ? 100 : -100,
+      scale: 0.95,
+      y: direction === "down" ? 50 : -50,
+      filter: "blur(4px)",
+      zIndex: 1,
     }),
     center: {
       opacity: 1,
       scale: 1,
-      rotateX: 0,
       y: 0,
+      filter: "blur(0px)",
+      zIndex: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1], // Custom cubic-bezier
+      },
     },
     exit: (direction: "up" | "down") => ({
       opacity: 0,
-      scale: 1.2,
-      rotateX: direction === "down" ? -15 : 15,
-      y: direction === "down" ? -100 : 100,
+      scale: 1.05,
+      y: direction === "down" ? -50 : 50,
+      filter: "blur(4px)",
+      zIndex: 1,
+      transition: {
+        duration: TRANSITION_DURATION,
+        ease: "easeInOut",
+        // Exit animation starts slightly before enter animation completes
+        delay: TRANSITION_DURATION * 0.3,
+      },
     }),
   };
 
@@ -170,37 +185,48 @@ export const MorphingPortfolioContainer = ({
     <div
       ref={containerRef}
       className="fixed inset-0 w-full h-full overflow-hidden bg-gradient-to-br from-slate-900 via-gray-900 to-black"
-      style={{ perspective: "1000px" }}
+      style={{
+        perspective: "1200px",
+        transformStyle: "preserve-3d",
+      }}
     >
-      {/* Fixed Dark Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-gray-900 to-black">
-        {/* Subtle radial accent */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background: `radial-gradient(circle_at_50%_50%, ${currentTheme.dotColor}, transparent)`,
-          }}
-        />
-
-        {/* Simple Animated Dot Pattern - just dots */}
+      {/* Animated Background with Morphing Effect */}
+      <motion.div
+        key={`bg-${currentSectionIndex}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: TRANSITION_DURATION * 0.7 }}
+        className="absolute inset-0"
+      >
+        {/* Dynamic Dot Pattern */}
         <motion.div
-          key={`pattern-${currentSectionIndex}`}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.2 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `url('${generateDotPattern(
               currentTheme.dotColor
             )}')`,
           }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 0.3, scale: 1 }}
+          transition={{ duration: TRANSITION_DURATION }}
         />
-      </div>
+
+        {/* Accent Glow */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(circle at center, ${currentTheme.accentColor}20, transparent 70%)`,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: TRANSITION_DURATION * 0.5 }}
+        />
+      </motion.div>
 
       {/* Morphing Content Layer */}
-      <div className="relative z-10 w-full h-screen">
-        <AnimatePresence mode="wait" custom={scrollDirection.current}>
+      <div className="relative z-10 w-full h-screen overflow-hidden">
+        <AnimatePresence mode="popLayout" custom={scrollDirection.current}>
           <motion.div
             key={currentSectionIndex}
             custom={scrollDirection.current}
@@ -208,23 +234,18 @@ export const MorphingPortfolioContainer = ({
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{
-              duration: 0.8,
-              ease: [0.25, 0.46, 0.45, 0.94],
-              opacity: { duration: 0.6 },
-              scale: { duration: 0.8 },
-              rotateX: { duration: 0.8 },
-              y: { duration: 0.8 },
-            }}
             className="absolute inset-0 w-full h-full"
-            style={{ transformStyle: "preserve-3d" }}
+            style={{
+              transformOrigin: "center center",
+              backfaceVisibility: "hidden",
+            }}
           >
             {sections[currentSectionIndex]?.component}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Enhanced Section Indicators with larger dots */}
+      {/* Section Indicators (unchanged) */}
       <div className="fixed right-2 sm:right-4 md:right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-3 sm:space-y-4">
         {sections.map((_, index) => {
           const theme = sectionThemes[index] || sectionThemes[0];
@@ -241,16 +262,19 @@ export const MorphingPortfolioContainer = ({
                   scrollDirection.current =
                     index > currentSectionIndex ? "down" : "up";
                   setCurrentSectionIndex(index);
-                  setTimeout(() => setIsTransitioning(false), 800);
+                  setTimeout(
+                    () => setIsTransitioning(false),
+                    TRANSITION_DURATION * 1000
+                  );
                 }
               }}
-              className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full transition-all duration-500 relative ${
+              className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full transition-all duration-300 ${
                 isActive ? "" : "bg-white/30 hover:bg-white/50"
               }`}
               style={{
                 backgroundColor: isActive ? theme.accentColor : undefined,
                 boxShadow: isActive
-                  ? `0 0 20px ${theme.accentColor}80, inset 0 0 10px ${theme.accentColor}40`
+                  ? `0 0 10px ${theme.accentColor}80, inset 0 0 5px ${theme.accentColor}40`
                   : undefined,
               }}
               aria-label={`Go to ${sections[index]?.title}`}
@@ -259,7 +283,8 @@ export const MorphingPortfolioContainer = ({
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute inset-0.5 rounded-full border-2 border-white/30"
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0.5 rounded-full"
                 />
               )}
             </motion.button>
@@ -267,14 +292,14 @@ export const MorphingPortfolioContainer = ({
         })}
       </div>
 
-      {/* Enhanced Section Title Indicator */}
+      {/* Section Title Indicator with faster animation */}
       <div className="fixed top-1 sm:top-6 md:top-8 left-2 sm:left-4 md:left-8 z-50 md:ml-20">
         <motion.div
-          key={currentSectionIndex}
-          initial={{ opacity: 0, y: -20, x: -30 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, y: -20, x: 30 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          key={`title-${currentSectionIndex}`}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: TRANSITION_DURATION * 0.6 }}
           className="text-white/90 text-sm sm:text-base md:text-lg font-medium"
         >
           {sections[currentSectionIndex]?.title}
@@ -295,25 +320,35 @@ export const MorphingPortfolioContainer = ({
                   ((currentSectionIndex + 1) / sections.length) * 100
                 }%`,
               }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: TRANSITION_DURATION * 0.8 }}
             />
           </div>
         </div>
       </div>
 
-      {/* Navigation Instructions with enhanced styling */}
-      <div className="fixed top-2 sm:top-6 md:top-8 right-2 sm:right-4 md:right-8 z-50 text-white/60 text-xs sm:text-sm text-right md:mr-10">
+      {/* Navigation Instructions */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.6 }}
+        transition={{ delay: 1 }}
+        className="fixed top-2 sm:top-6 md:top-8 right-2 sm:right-4 md:right-8 z-50 text-white/60 text-xs sm:text-sm text-right md:mr-10"
+      >
         <div className="hidden sm:block bg-black/20 backdrop-blur-sm px-2 py-1 rounded">
-          Click dots to jump to section
+          Scroll or use arrows
         </div>
-      </div>
+      </motion.div>
 
-      {/* Mobile-only swipe hint with enhanced styling */}
-      <div className="fixed bottom-4 right-2 z-50 text-white/60 text-xs text-right sm:hidden">
+      {/* Mobile Swipe Hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.6 }}
+        transition={{ delay: 1.5 }}
+        className="fixed bottom-4 right-2 z-50 text-white/60 text-xs text-right sm:hidden"
+      >
         <div className="bg-black/20 backdrop-blur-sm px-2 py-1 rounded">
-          Tap dots to jump
+          Swipe up/down
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

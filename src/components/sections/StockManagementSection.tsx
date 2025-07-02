@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Package,
   BarChart3,
@@ -13,9 +12,6 @@ import {
   Activity,
 } from "lucide-react";
 import Image from "next/image";
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Stock Management Section Component
@@ -81,14 +77,7 @@ export const StockManagementSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-          end: "bottom 30%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      const tl = gsap.timeline();
 
       // Background icons animation
       if (backgroundIconsRef.current) {

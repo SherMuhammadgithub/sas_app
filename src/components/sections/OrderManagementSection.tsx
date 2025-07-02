@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ShoppingCart,
   Package,
@@ -12,9 +11,6 @@ import {
   Star,
 } from "lucide-react";
 import Image from "next/image";
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Order Management Section Component
@@ -77,56 +73,46 @@ export const OrderManagementSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-          end: "bottom 30%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      const tl = gsap.timeline();
 
-      // Background icons with wave animation
+      // Background icons animation
       if (backgroundIconsRef.current) {
         const icons = backgroundIconsRef.current.querySelectorAll(".bg-icon");
         gsap.set(icons, {
           opacity: 0,
           scale: 0,
-          y: -100,
-          rotation: 180,
+          rotation: 360,
         });
 
         tl.to(
           icons,
           {
-            opacity: 0.15,
+            opacity: 0.2,
             scale: 1,
-            y: 0,
             rotation: 0,
-            duration: 1.5,
-            stagger: 0.15,
-            ease: "elastic.out(1, 0.5)",
+            duration: 1.2,
+            stagger: 0.1,
+            ease: "back.out(1.7)",
           },
           0
         );
 
-        // Continuous wave animation for background icons
+        // Continuous floating animation for background icons
         gsap.to(icons, {
-          y: "+=15",
-          duration: 6,
+          rotation: "+=360",
+          duration: 20,
           repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut",
-          stagger: 1,
+          ease: "none",
+          stagger: 5,
         });
       }
 
-      // Badge with pulsing effect
+      // Badge animation with bounce
       if (badgeRef.current) {
         gsap.set(badgeRef.current, {
           opacity: 0,
-          scale: 0,
-          rotationY: -90,
+          scale: 0.3,
+          rotation: -180,
         });
 
         tl.to(
@@ -134,77 +120,94 @@ export const OrderManagementSection = () => {
           {
             opacity: 1,
             scale: 1,
-            rotationY: 0,
-            duration: 1.2,
-            ease: "back.out(2)",
+            rotation: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
           },
-          0.3
+          0.2
         );
 
-        // Pulsing glow effect
-        gsap.to(badgeRef.current, {
-          boxShadow:
-            "0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1)",
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          ease: "power2.inOut",
-        });
+        // Badge text reveal
+        const badgeText = badgeRef.current.querySelector(".badge-text");
+        if (badgeText) {
+          gsap.set(badgeText, { opacity: 0 });
+          tl.to(
+            badgeText,
+            {
+              opacity: 1,
+              duration: 0.5,
+            },
+            0.8
+          );
+        }
       }
 
-      // Heading with character split animation
+      // Heading animation with staggered words
       if (headingRef.current) {
-        const chars = headingRef.current.querySelectorAll(".char");
-        gsap.set(chars, {
+        const words = headingRef.current.querySelectorAll(".word");
+        gsap.set(words, {
           opacity: 0,
-          y: 150,
-          rotationX: 90,
-          transformOrigin: "center bottom",
+          y: 100,
+          rotationX: -90,
         });
 
         tl.to(
-          chars,
+          words,
           {
             opacity: 1,
             y: 0,
             rotationX: 0,
-            duration: 1,
-            stagger: 0.03,
-            ease: "back.out(1.5)",
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out",
           },
-          0.6
+          0.4
         );
       }
 
-      // Description with liquid morphing effect
+      // Description animation with typewriter effect
       if (descriptionRef.current) {
         gsap.set(descriptionRef.current, {
           opacity: 0,
-          scaleX: 0,
-          skewX: 45,
-          transformOrigin: "left center",
+          x: -100,
         });
 
         tl.to(
           descriptionRef.current,
           {
             opacity: 1,
-            scaleX: 1,
-            skewX: 0,
-            duration: 1.2,
-            ease: "power3.out",
+            x: 0,
+            duration: 0.7,
+            ease: "power2.out",
           },
-          1.4
+          1.2
         );
+
+        // Typewriter highlight effect
+        const highlight = descriptionRef.current.querySelector(
+          ".typewriter-highlight"
+        );
+        if (highlight) {
+          gsap.set(highlight, { width: 0 });
+          tl.to(
+            highlight,
+            {
+              width: "100%",
+              duration: 1.2,
+              ease: "power2.inOut",
+            },
+            1.2
+          );
+        }
       }
 
-      // Features list with cascade animation
+      // Features list animation
       if (featuresRef.current) {
         const features = featuresRef.current.querySelectorAll(".feature-item");
         gsap.set(features, {
           opacity: 0,
-          x: -150,
-          rotationY: -45,
+          scaleY: 0,
+          transformOrigin: "bottom",
         });
 
         features.forEach((feature, index) => {
@@ -212,83 +215,72 @@ export const OrderManagementSection = () => {
           const title = feature.querySelector(".feature-title");
           const desc = feature.querySelector(".feature-desc");
 
-          // Feature container with slide in
+          // Feature container
           tl.to(
             feature,
             {
               opacity: 1,
-              x: 0,
-              rotationY: 0,
-              duration: 0.8,
+              scaleY: 1,
+              duration: 0.6,
               ease: "power2.out",
             },
-            1.8 + index * 0.3
+            1.6 + index * 0.2
           );
 
-          // Icon with bounce effect
+          // Icon spin animation
           if (icon) {
-            gsap.set(icon, { scale: 0, rotation: 180 });
+            gsap.set(icon, { rotation: -180, scale: 0 });
             tl.to(
               icon,
               {
-                scale: 1,
                 rotation: 0,
+                scale: 1,
                 duration: 0.6,
-                ease: "bounce.out",
+                ease: "back.out(1.7)",
               },
-              2.0 + index * 0.3
+              1.8 + index * 0.2
             );
-
-            // Continuous pulse for icons
-            gsap.to(icon, {
-              scale: 1.1,
-              duration: 3,
-              repeat: -1,
-              yoyo: true,
-              ease: "power2.inOut",
-              delay: index * 0.5,
-            });
           }
 
-          // Title with typewriter effect
+          // Title glitch effect
           if (title) {
-            gsap.set(title, { opacity: 0, width: 0 });
+            gsap.set(title, { opacity: 0, x: -50 });
             tl.to(
               title,
               {
                 opacity: 1,
-                width: "auto",
-                duration: 0.8,
+                x: 0,
+                duration: 0.5,
                 ease: "power2.out",
               },
-              2.2 + index * 0.3
+              2.0 + index * 0.2
             );
           }
 
-          // Description with fade slide
+          // Description slide in
           if (desc) {
-            gsap.set(desc, { opacity: 0, y: 20 });
+            gsap.set(desc, { opacity: 0, x: -100 });
             tl.to(
               desc,
               {
                 opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "power1.out",
+                x: 0,
+                duration: 0.7,
+                ease: "power2.out",
               },
-              2.4 + index * 0.3
+              2.2 + index * 0.2
             );
           }
         });
       }
 
-      // Buttons with morphing effect
+      // Buttons animation with elastic effect
       if (buttonsRef.current) {
         const buttons = buttonsRef.current.querySelectorAll("button");
         gsap.set(buttons, {
           opacity: 0,
-          scale: 0,
-          rotationZ: 180,
+          scale: 0.8,
+          y: 50,
         });
 
         tl.to(
@@ -296,97 +288,93 @@ export const OrderManagementSection = () => {
           {
             opacity: 1,
             scale: 1,
-            rotationZ: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: "elastic.out(1, 0.3)",
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "back.out(1.7)",
           },
-          3.2
+          2.8
         );
       }
 
-      // Image container with 3D flip effect
+      // Image container animation
       if (imageContainerRef.current) {
         gsap.set(imageContainerRef.current, {
           opacity: 0,
-          rotationY: 90,
-          scale: 0.8,
+          x: 100,
+          rotationY: 25,
         });
 
         tl.to(
           imageContainerRef.current,
           {
             opacity: 1,
+            x: 0,
             rotationY: 0,
-            scale: 1,
-            duration: 1.5,
+            duration: 1.2,
             ease: "power2.out",
           },
-          0.8
+          0.6
         );
       }
 
-      // Floating cards with orbit animation
+      // Floating cards animation
       if (floatingCard1Ref.current) {
         gsap.set(floatingCard1Ref.current, {
           opacity: 0,
-          scale: 0,
-          rotation: -90,
+          y: 50,
+          rotationX: -45,
         });
 
         tl.to(
           floatingCard1Ref.current,
           {
             opacity: 1,
-            scale: 1,
-            rotation: 0,
-            duration: 1,
-            ease: "back.out(2)",
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
           },
-          1.8
+          1.4
         );
 
-        // Orbital floating animation
+        // Continuous floating animation
         gsap.to(floatingCard1Ref.current, {
-          x: 10,
-          y: -10,
-          rotation: 5,
-          duration: 5,
+          y: -5,
+          duration: 4,
           repeat: -1,
           yoyo: true,
-          ease: "sine.inOut",
+          ease: "power1.inOut",
         });
       }
 
       if (floatingCard2Ref.current) {
         gsap.set(floatingCard2Ref.current, {
           opacity: 0,
-          scale: 0,
-          rotation: 90,
+          y: 50,
+          rotationX: 45,
         });
 
         tl.to(
           floatingCard2Ref.current,
           {
             opacity: 1,
-            scale: 1,
-            rotation: 0,
-            duration: 1,
-            ease: "back.out(2)",
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "back.out(1.7)",
           },
-          2.2
+          1.6
         );
 
-        // Counter-orbital floating animation
+        // Continuous floating animation with different timing
         gsap.to(floatingCard2Ref.current, {
-          x: -8,
-          y: 12,
-          rotation: -3,
-          duration: 4,
+          y: 5,
+          duration: 3,
           repeat: -1,
           yoyo: true,
-          ease: "sine.inOut",
-          delay: 2,
+          ease: "power1.inOut",
+          delay: 1,
         });
       }
     }, sectionRef);
@@ -394,12 +382,10 @@ export const OrderManagementSection = () => {
     return () => ctx.revert(); // Cleanup
   }, []);
 
-  // Button hover animations with blue theme
+  // Button hover animations
   const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
     gsap.to(e.currentTarget, {
-      scale: 1.08,
-      rotationY: 5,
-      boxShadow: "0 10px 30px rgba(59, 130, 246, 0.3)",
+      scale: 1.05,
       duration: 0.3,
       ease: "power2.out",
     });
@@ -408,21 +394,18 @@ export const OrderManagementSection = () => {
   const handleButtonLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
     gsap.to(e.currentTarget, {
       scale: 1,
-      rotationY: 0,
-      boxShadow: "0 4px 15px rgba(59, 130, 246, 0.1)",
       duration: 0.3,
       ease: "power2.out",
     });
   };
 
-  // Image hover animation with blue theme
+  // Image hover animation
   const handleImageHover = (e: React.MouseEvent<HTMLDivElement>) => {
     gsap.to(e.currentTarget, {
-      scale: 1.03,
-      rotationY: 8,
-      rotationX: 3,
-      boxShadow: "0 20px 60px rgba(59, 130, 246, 0.2)",
-      duration: 0.4,
+      scale: 1.02,
+      rotationY: 5,
+      rotationX: 5,
+      duration: 0.3,
       ease: "power2.out",
     });
   };
@@ -432,8 +415,7 @@ export const OrderManagementSection = () => {
       scale: 1,
       rotationY: 0,
       rotationX: 0,
-      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
-      duration: 0.4,
+      duration: 0.3,
       ease: "power2.out",
     });
   };
@@ -476,72 +458,37 @@ export const OrderManagementSection = () => {
               className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-blue-500/20 text-blue-300 text-xs sm:text-sm font-medium border border-blue-500/30 backdrop-blur-sm"
             >
               <Package className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              <span>Order Management</span>
+              <span className="badge-text">Order Management</span>
             </div>
 
-            {/* Main Heading with Character Animation */}
+            {/* Main Heading with Staggered Words */}
             <h2
               ref={headingRef}
               className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight"
             >
-              <span className="char inline-block">S</span>
-              <span className="char inline-block">t</span>
-              <span className="char inline-block">r</span>
-              <span className="char inline-block">e</span>
-              <span className="char inline-block">a</span>
-              <span className="char inline-block">m</span>
-              <span className="char inline-block">l</span>
-              <span className="char inline-block">i</span>
-              <span className="char inline-block">n</span>
-              <span className="char inline-block">e</span>
-              <span className="char inline-block">&nbsp;</span>
-              <span className="char inline-block">Y</span>
-              <span className="char inline-block">o</span>
-              <span className="char inline-block">u</span>
-              <span className="char inline-block">r</span>
-              <span className="char inline-block">&nbsp;</span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                O
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                r
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                d
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                e
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                r
-              </span>
-              <span className="char inline-block">&nbsp;</span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                F
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                l
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                o
-              </span>
-              <span className="char bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
-                w
+              <span className="word inline-block">Streamline</span>{" "}
+              <span className="word inline-block">Your</span>{" "}
+              <span className="word bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
+                Order
+              </span>{" "}
+              <span className="word bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent inline-block">
+                Flow
               </span>
             </h2>
 
-            {/* Description with Morphing Effect */}
+            {/* Description with Typewriter Effect */}
             <div className="relative overflow-hidden hidden sm:block">
+              <div className="typewriter-highlight absolute inset-0 bg-gradient-to-r from-blue-400/20 to-transparent"></div>
               <p
                 ref={descriptionRef}
-                className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed"
+                className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed relative z-10"
               >
                 Transform your order management with intelligent automation,
                 real-time inventory tracking, and seamless delivery workflows.
               </p>
             </div>
 
-            {/* Features List with Cascade Animation */}
+            {/* Features List with GSAP Animation */}
             <div
               ref={featuresRef}
               className="space-y-2 sm:space-y-3 lg:space-y-4"
@@ -566,7 +513,7 @@ export const OrderManagementSection = () => {
               ))}
             </div>
 
-            {/* CTA Buttons with Blue Theme */}
+            {/* CTA Buttons with GSAP Animation */}
             <div
               ref={buttonsRef}
               className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4"
@@ -588,7 +535,7 @@ export const OrderManagementSection = () => {
             </div>
           </div>
 
-          {/* Image Side - Right with 3D Effect */}
+          {/* Image Side - Right with GSAP Animation */}
           <div ref={imageContainerRef} className="relative order-1 lg:order-2">
             <div className="relative">
               {/* Main Image with 3D Hover Effect */}
@@ -600,18 +547,18 @@ export const OrderManagementSection = () => {
               >
                 <Image
                   src="/images/order.png"
-                  alt="Order Management Dashboard"
-                  width={500}
-                  height={350}
+                  alt="Order Management Dashboard - Smart order processing and workflow management interface"
+                  width={600}
+                  height={360}
                   className="w-full h-auto object-cover max-h-[200px] sm:max-h-[250px] md:max-h-[300px] lg:max-h-[350px] xl:max-h-[400px]"
                   priority
                 />
               </div>
 
-              {/* Enhanced Floating Cards with Blue Theme */}
+              {/* Enhanced Floating Cards with GSAP */}
               <div
                 ref={floatingCard1Ref}
-                className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-blue-600/50 hidden sm:block"
+                className="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden sm:block"
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
                   <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
@@ -626,10 +573,10 @@ export const OrderManagementSection = () => {
 
               <div
                 ref={floatingCard2Ref}
-                className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-indigo-600/50 hidden md:block"
+                className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-lg border border-gray-600/50 hidden md:block"
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-400" />
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
                   <div>
                     <p className="text-xs text-gray-400">Rating</p>
                     <p className="text-xs sm:text-sm font-bold text-white">
